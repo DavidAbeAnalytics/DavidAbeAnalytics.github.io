@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ============================================================
+  PORTFOLIO — Cloud & Analytics Data Engineer
+  ============================================================
+  FILE STRUCTURE:
+  ├── index.html          ← You are here (single-page portfolio)
+  ├── assets/
+  │   ├── images/         ← Add your profile photo here
+  │   └── resume.pdf      ← Drop your CV here
+  └── README.md
+
+  SECTIONS IN THIS FILE:
+  1.  <head>             — Meta tags, Google Fonts, base styles
+  2.  Navigation         — Fixed top nav with smooth scroll links
+  3.  Hero               — Animated data-pipeline canvas + intro
+  4.  About              — Bio + skills matrix
+  5.  Tech Stack         — Visual icon grid of tools/tech
+  6.  Projects           — Cards for each featured project
+  7.  Experience         — Timeline of work history
+  8.  Contact            — Social links + email CTA
+  9.  Footer             — Copyright
+  10. <script>           — Canvas animation + interactions
+  ============================================================
+-->
+<head>
+  <!-- ── CHARSET & VIEWPORT ────────────────────────────────
+       charset: ensures special characters render correctly.
+       viewport: makes the page responsive on mobile devices.
+  ──────────────────────────────────────────────────────── -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── SEO META TAGS ─────────────────────────────────────
+       Replace the content values with David Abe and description.
+       These appear in Google search results and link previews.
+  ──────────────────────────────────────────────────────── -->
+  <title>David Abe | Cloud & Analytics Data Engineer</title>
+  <meta name="description" content="Cloud Data Engineer and Analytics Engineer specialising in scalable data platforms, real-time pipelines, and BI solutions. View my projects and experience." />
+  <meta name="author" content="David Abe" />
+
+  <!-- ── OPEN GRAPH (Social Previews) ──────────────────────
+       When someone shares your URL on LinkedIn / Twitter,
+       these tags control the preview card that appears.
+       og:image should point to a 1200×630px screenshot of your site.
+  ──────────────────────────────────────────────────────── -->
+  <meta property="og:title" content="David Abe | Cloud & Analytics Data Engineer" />
+  <meta property="og:description" content="Building scalable data platforms and analytics solutions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://DavidAbeAnalytics.github.io" />
+  <!-- <meta property="og:image" content="https://yourusername.github.io/assets/images/og-preview.png" /> -->
+
+  <!-- ── FONTS ──────────────────────────────────────────────
+       Space Grotesk → headings / display text (geometric, technical feel)
+       Inter         → body text (highly legible at small sizes)
+       JetBrains Mono→ code snippets and terminal-style labels
+       Loaded from Google Fonts CDN (free, no install needed).
+  ──────────────────────────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- ── FONT AWESOME (Icons) ──────────────────────────────
+       Free icon library. Used for tech stack icons, social links,
+       and section labels. CDN version — no download needed.
+  ──────────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       1. CSS CUSTOM PROPERTIES (Design Tokens)
+       ══════════════════════════════════════════════════════
+       Defining colors, fonts, and spacing as variables means
+       you only need to change one value to update the whole site.
+       E.g. changing --accent-primary here updates every cyan
+       element across every section automatically.
+    ══════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --bg-deep:        #070C18;   /* darkest background */
+      --bg-surface:     #0D1526;   /* card / section backgrounds */
+      --bg-elevated:    #132035;   /* hover states, code blocks */
+      --border:         #1E3050;   /* subtle dividing lines */
+      --accent-primary: #00D4FF;   /* electric cyan — main brand color */
+      --accent-secondary:#F59E0B;  /* amber — highlights & badges */
+      --accent-green:   #10B981;   /* success / active states */
+      --text-primary:   #F0F6FF;   /* headings */
+      --text-secondary: #8892A4;   /* body / muted text */
+      --text-muted:     #4A5568;   /* timestamps, labels */
+
+      /* Typography */
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      /* Spacing Scale */
+      --space-xs:  0.25rem;
+      --space-sm:  0.5rem;
+      --space-md:  1rem;
+      --space-lg:  2rem;
+      --space-xl:  4rem;
+      --space-2xl: 8rem;
+
+      /* Misc */
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --glow-cyan:  0 0 20px rgba(0, 212, 255, 0.3);
+      --glow-amber: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       2. RESET & BASE STYLES
+       ══════════════════════════════════════════════════════
+       * selector resets browser defaults so layout is consistent
+       across Chrome, Firefox, Safari, Edge.
+       box-sizing: border-box means padding is included in width
+       calculations (avoids overflow surprises).
+    ══════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;         /* enables smooth scrolling between sections */
+      scroll-padding-top: 70px;        /* offset for the fixed navigation bar */
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      overflow-x: hidden;              /* prevent horizontal scrollbar */
+    }
+
+    /* Accessibility: skip-to-content link for keyboard users */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 1rem;
+      background: var(--accent-primary);
+      color: var(--bg-deep);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      z-index: 1000;
+      transition: top var(--transition);
+    }
+    .skip-link:focus { top: 1rem; }
+
+    a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    a:hover { color: var(--text-primary); }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* Utility: constrain content width and center it */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* ── Section wrapper ─────────────────────────────────── */
+    .section {
+      padding: var(--space-2xl) 0;
+    }
+    .section-label {
+      /* Small eyebrow label above section titles */
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent-primary);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem); /* scales fluidly between screen sizes */
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: var(--space-md);
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       3. NAVIGATION
+       ══════════════════════════════════════════════════════
+       Fixed to the top of the viewport so it stays visible
+       while scrolling. Backdrop-filter creates the frosted
+       glass effect over the dark background.
+    ══════════════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(7, 12, 24, 0.85);
+      backdrop-filter: blur(16px);          /* frosted glass */
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Logo — replace "YN" with your initials */
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .nav-logo span {
+      /* The highlighted initial box */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--accent-primary);
+      color: var(--bg-deep);
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      transition: color var(--transition);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    /* Underline grows from left on hover */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-primary);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--accent-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* CTA button in nav */
+    .btn-nav {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent-primary) !important;
+      border: 1px solid var(--accent-primary);
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition) !important;
+    }
+    .btn-nav:hover {
+      background: var(--accent-primary) !important;
+      color: var(--bg-deep) !important;
+    }
+    .btn-nav::after { display: none !important; }
+
+    /* Hamburger menu for mobile */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: all var(--transition);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       4. HERO SECTION
+       ══════════════════════════════════════════════════════
+       Full-viewport-height opening section. The <canvas>
+       element behind the text renders an animated node graph
+       that visualises a data pipeline — built entirely in JS.
+    ══════════════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 64px; /* offset the fixed nav */
+    }
+
+    /* Canvas sits behind all hero content */
+    #pipeline-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+    }
+
+    /* Gradient overlay so text stays readable */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(7, 12, 24, 0.85) 0%,
+        rgba(7, 12, 24, 0.4) 60%,
+        rgba(7, 12, 24, 0.7) 100%
+      );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;           /* sits above the canvas and gradient */
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* Blinking cursor effect on the role label */
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.1em;
+      background: var(--accent-primary);
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Cyan gradient on the title highlight */
+    .hero-name .highlight {
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: var(--space-xl);
+      line-height: 1.6;
+    }
+
+    /* Pipeline stats strip below the tagline */
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* CTA buttons */
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--accent-primary);
+      color: var(--bg-deep);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.05em;
+    }
+    .btn-primary:hover {
+      background: #fff;
+      color: var(--bg-deep);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.05em;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator at the bottom of the hero */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+    .scroll-indicator .arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       5. ABOUT SECTION
+       ══════════════════════════════════════════════════════
+       Two-column layout: text bio on the left,
+       profile photo + skill bars on the right.
+    ══════════════════════════════════════════════════════ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .about-bio p {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-md);
+      line-height: 1.8;
+    }
+
+    /* Terminal-style code block for fun personality */
+    .terminal-block {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-top: var(--space-lg);
+    }
+    .terminal-header {
+      background: var(--bg-elevated);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red    { background: #FF5F56; }
+    .terminal-dot.yellow { background: #FFBD2E; }
+    .terminal-dot.green  { background: #27C93F; }
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    .terminal-body {
+      padding: var(--space-md);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 2;
+    }
+    .terminal-body .prompt { color: var(--accent-green); }
+    .terminal-body .cmd    { color: var(--text-primary); }
+    .terminal-body .output { color: var(--text-secondary); }
+    .terminal-body .key    { color: var(--accent-primary); }
+    .terminal-body .val    { color: var(--accent-secondary); }
+
+    /* Profile image */
+    .about-visual {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    .profile-img-wrapper {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+    .profile-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border);
+    }
+    /* Cyan ring accent around profile photo */
+    .profile-img-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: calc(var(--radius-lg) + 4px);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      z-index: -1;
+    }
+    .profile-placeholder {
+      /* Used when no photo is available */
+      width: 100%;
+      height: 100%;
+      border-radius: var(--radius-lg);
+      background: var(--bg-elevated);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .profile-placeholder i { font-size: 3rem; color: var(--border); }
+
+    /* Skills progress bars */
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .skill-item {}
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .skill-name {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .skill-pct {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+    }
+    .skill-bar {
+      height: 4px;
+      background: var(--bg-elevated);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       6. TECH STACK SECTION
+       ══════════════════════════════════════════════════════
+       Icon pill grid. Each pill has an icon + label.
+       Hover lifts and glows the pill.
+    ══════════════════════════════════════════════════════ */
+    .tech-categories {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+    .tech-category-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-md);
+    }
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      cursor: default;
+    }
+    .tech-pill i { color: var(--accent-primary); font-size: 0.9rem; }
+    .tech-pill:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-cyan);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       7. PROJECTS SECTION
+       ══════════════════════════════════════════════════════
+       Filter tabs + responsive card grid.
+       Cards use a subtle tilt transform on hover.
+    ══════════════════════════════════════════════════════ */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.05em;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      background: rgba(0, 212, 255, 0.08);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    /* Each project card */
+    .project-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .project-card::before {
+      /* Glowing top border on hover */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .project-card:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), var(--glow-cyan);
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    /* Coloured header strip representing the project domain */
+    .project-header {
+      padding: var(--space-lg);
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .project-links {
+      display: flex;
+      gap: var(--space-sm);
+    }
+    .project-link {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all var(--transition);
+    }
+    .project-link:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      background: rgba(0, 212, 255, 0.1);
+    }
+
+    .project-body { padding: var(--space-lg); flex: 1; }
+
+    .project-category {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: var(--space-sm);
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-sm);
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Project metric highlights */
+    .project-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .metric-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       8. EXPERIENCE SECTION — Vertical Timeline
+       ══════════════════════════════════════════════════════
+       A vertical line with dot markers at each role.
+       The left line is the timeline axis.
+    ══════════════════════════════════════════════════════ */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    /* The vertical line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent-primary), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: var(--space-xl);
+      padding-left: var(--space-lg);
+    }
+    /* Dot on the timeline */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 6px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--bg-deep);
+      border: 2px solid var(--accent-primary);
+      transition: all var(--transition);
+    }
+    .timeline-item:hover::before {
+      background: var(--accent-primary);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-secondary);
+      margin-bottom: var(--space-sm);
+      letter-spacing: 0.05em;
+    }
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .timeline-company {
+      font-size: 0.9rem;
+      color: var(--accent-primary);
+      margin-bottom: var(--space-md);
+    }
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+    .timeline-achievements {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .timeline-achievements li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      gap: var(--space-sm);
+      align-items: flex-start;
+    }
+    .timeline-achievements li::before {
+      content: '→';
+      color: var(--accent-primary);
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       9. CONTACT SECTION
+       ══════════════════════════════════════════════════════
+       Centered layout with social links and an email CTA.
+    ══════════════════════════════════════════════════════ */
+    #contact {
+      text-align: center;
+    }
+    .contact-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Radial glow behind the contact card */
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-email {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: var(--space-lg) 0;
+      display: block;
+      transition: color var(--transition);
+    }
+    .contact-email:hover { color: var(--accent-primary); }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+    }
+    .social-link {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: all var(--transition);
+    }
+    .social-link:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-3px);
+      box-shadow: var(--glow-cyan);
+    }
+
+    /* ══════════════════════════════════════════════════════
+       10. FOOTER
+    ══════════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: var(--space-lg) 0;
+      text-align: center;
+    }
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    footer span { color: var(--accent-primary); }
+
+    /* ══════════════════════════════════════════════════════
+       11. RESPONSIVE BREAKPOINTS
+       ══════════════════════════════════════════════════════
+       Mobile-first tweaks. At < 768px (tablets and phones):
+       - Nav links collapse into hamburger menu
+       - Two-column grids become single column
+    ══════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Show hamburger, hide links */
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--bg-deep);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: var(--space-lg);
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+
+      .about-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+
+      .hero-stats { gap: var(--space-md); }
+      .stat-value  { font-size: 1.5rem; }
+
+      .contact-card { padding: var(--space-xl) var(--space-md); }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       12. SCROLL REVEAL ANIMATION
+       ══════════════════════════════════════════════════════
+       Elements start invisible and slide up.
+       JavaScript IntersectionObserver adds .visible class
+       when they enter the viewport.
+    ══════════════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Stagger delays for grid children */
+    .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .reveal:nth-child(3) { transition-delay: 0.2s; }
+    .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+  </style>
+</head>
+
+<body>
+  <!-- Accessibility: lets keyboard users skip straight to main content -->
+  <a href="#about" class="skip-link">Skip to content</a>
+
+  <!-- ══════════════════════════════════════════════════════
+       NAVIGATION
+       ── How it works ──────────────────────────────────────
+       Fixed bar with logo on the left and page-anchor links
+       on the right. On mobile the links collapse behind a
+       hamburger button (toggled by JS at the bottom).
+  ══════════════════════════════════════════════════════ -->
+  <nav role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+
+      <!-- LOGO: Replace "YN" with your initials and "Your Name" with your name -->
+      <a href="#hero" class="nav-logo" aria-label="Home">
+        <span>YN</span>
+        David Abe
+      </a>
+
+      <!-- Mobile hamburger button -->
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- Desktop nav links — each href="#id" scrolls to that section -->
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <!-- Resume download link — put your PDF in assets/resume.pdf -->
+        <li><a href="assets/resume.pdf" class="btn-nav" target="_blank" rel="noopener">Resume ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO SECTION
+       ── How it works ──────────────────────────────────────
+       Full-height opening section. Behind the text content
+       sits a <canvas> element that renders an animated node-
+       graph representing a data pipeline (drawn by JS below).
+       A CSS gradient sits between the canvas and the text so
+       the text is always readable.
+
+       CUSTOMISE:
+       • Replace "Your Name" in hero-name
+       • Update the tagline sentence
+       • Update the 3 stat numbers
+       • Update the two CTA button hrefs
+  ══════════════════════════════════════════════════════ -->
+  <section id="hero" aria-label="Introduction">
+    <!-- The animated pipeline background canvas -->
+    <canvas id="pipeline-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero-content">
+
+      <!-- Blinking cursor label -->
+      <p class="hero-eyebrow">
+        Cloud & Analytics Data Engineer
+        <span class="cursor" aria-hidden="true"></span>
+      </p>
+
+      <!-- Your name with a gradient on your role descriptor -->
+      <h1 class="hero-name">
+        Hi, I'm<br>
+        <span class="highlight">David Abe</span>
+      </h1>
+
+      <!-- One-sentence value proposition — keep it tight -->
+      <p class="hero-tagline">
+        I architect <strong style="color:var(--text-primary)">scalable data platforms</strong>,
+        build real-time ETL pipelines, and turn raw data into
+        business intelligence that drives decisions.
+      </p>
+
+      <!-- Key stats — update numbers to match your reality -->
+      <div class="hero-stats" role="list">
+        <div class="stat-item" role="listitem">
+          <span class="stat-value" data-count="6">0</span>
+          <span class="stat-label">Projects Shipped</span>
+        </div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-value" data-count="3">0</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item" role="listitem">
+          <span class="stat-value" data-count="15">0</span>
+          <span class="stat-label">Tools & Technologies</span>
+        </div>
+      </div>
+
+      <!-- CTA buttons -->
+      <div class="hero-cta">
+        <!-- Primary: scrolls to Projects section -->
+        <a href="#projects" class="btn-primary">
+          <i class="fas fa-folder-open" aria-hidden="true"></i>
+          View Projects
+        </a>
+        <!-- Secondary: scrolls to Contact section -->
+        <a href="#contact" class="btn-outline">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+          Get in Touch
+        </a>
+      </div>
+    </div>
+
+    <!-- Animated down-arrow so users know to scroll -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       ABOUT SECTION
+       ── How it works ──────────────────────────────────────
+       Two columns: bio text + terminal widget on the left,
+       profile photo + skill bars on the right.
+
+       CUSTOMISE:
+       • Replace bio paragraphs with your own story
+       • Add your photo to assets/images/profile.jpg and
+         swap the placeholder <div> for an <img> tag
+       • Update the skill names and percentages
+  ══════════════════════════════════════════════════════ -->
+  <section id="about" class="section" aria-labelledby="about-heading">
+    <div class="container">
+      <p class="section-label">01 — About</p>
+      <h2 class="section-title" id="about-heading">Building data infrastructure<br>that scales.</h2>
+
+      <div class="about-grid">
+
+        <!-- Left column: bio + terminal -->
+        <div class="about-bio reveal">
+          <p>
+            I'm a <strong style="color:var(--text-primary)">Cloud Data Engineer</strong> and
+            <strong style="color:var(--text-primary)">Analytics Engineer</strong> with a passion
+            for designing robust, scalable data platforms on the cloud. I specialise in building
+            end-to-end pipelines — from ingestion through transformation to visualisation — using
+            modern tooling like dbt, Apache Kafka, Spark, and BigQuery.
+          </p>
+          <p>
+            My work spans real-time streaming architectures, data warehouse modelling,
+            and BI layer development. I enjoy the full stack of data: infrastructure,
+            pipelines, models, and dashboards. Whether it's designing a lakehouse schema
+            or optimising a slow dbt model, I care deeply about data quality and
+            engineering best practices.
+          </p>
+          <p>
+            <!-- Add a fun fact or personal touch here -->
+            When I'm not engineering data systems, you'll find me contributing to open-source
+            data projects and exploring new cloud-native tools.
+          </p>
+
+          <!--
+            TERMINAL BLOCK
+            This is a fun styled code snippet showing your "data.json" profile.
+            It adds personality and fits the data engineering aesthetic.
+            Update the values to match your real info.
+          -->
+          <div class="terminal-block">
+            <div class="terminal-header">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+              <span class="terminal-title">engineer.json</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="prompt">$ </span><span class="cmd">cat engineer.json</span></div>
+              <div class="output">{</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"name"</span>: <span class="val">"David Abe"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="val">"Cloud & Analytics Data Engineer"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"location"</span>: <span class="val">"Lagos, Nigeria 🇳🇬"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"cloud"</span>: [<span class="val">"GCP"</span>, <span class="val">"AWS"</span>, <span class="val">"Azure"</span>],</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"open_to"</span>: <span class="val">"Remote Opportunities"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="val" style="color:var(--accent-green)">"available"</span></div>
+              <div class="output">}</div>
+              <div><span class="prompt">$ </span><span class="cmd">_</span><span class="cursor" style="width:8px;height:14px;"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: photo + skill bars -->
+        <div class="about-visual reveal">
+
+          <!-- PROFILE PHOTO
+               Option A (no photo yet): keep the placeholder div below.
+               Option B (have a photo): replace the entire .profile-placeholder
+               div with: <img src="assets/images/profile.jpg" alt="Your Name" />
+               inside the .profile-img-wrapper div.
+          -->
+          <div class="profile-img-wrapper">
+            <div class="profile-placeholder">
+              <i class="fas fa-user" aria-hidden="true"></i>
+              <span>Add your photo</span>
+            </div>
+          </div>
+
+          <!--
+            SKILL BARS
+            Each bar animates in when the section scrolls into view.
+            data-pct="85" controls how far the bar fills (85 = 85%).
+            Adjust the skill names and percentages to match your real skills.
+          -->
+          <div class="skills-grid" aria-label="Core skill levels">
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Data Pipeline Engineering</span>
+                <span class="skill-pct">90%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Cloud Architecture (GCP / AWS)</span>
+                <span class="skill-pct">85%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">dbt / SQL Modelling</span>
+                <span class="skill-pct">88%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Apache Spark / Kafka</span>
+                <span class="skill-pct">80%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">Python (PySpark, Pandas)</span>
+                <span class="skill-pct">87%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="87"></div></div>
+            </div>
+
+            <div class="skill-item">
+              <div class="skill-header">
+                <span class="skill-name">BI / Dashboard (Looker, Power BI)</span>
+                <span class="skill-pct">82%</span>
+              </div>
+              <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
+            </div>
+
+          </div><!-- /.skills-grid -->
+        </div><!-- /.about-visual -->
+
+      </div><!-- /.about-grid -->
+    </div><!-- /.container -->
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       TECH STACK SECTION
+       ── How it works ──────────────────────────────────────
+       Pill badges grouped by category.
+       Font Awesome icons are used inside each pill.
+
+       CUSTOMISE:
+       • Add / remove pills in each category
+       • To find an icon: search https://fontawesome.com/icons
+       • To add a new category: copy a <div class="tech-category"> block
+  ══════════════════════════════════════════════════════ -->
+  <section id="stack" class="section" aria-labelledby="stack-heading">
+    <div class="container">
+      <p class="section-label">02 — Tech Stack</p>
+      <h2 class="section-title" id="stack-heading">Tools I work with.</h2>
+      <p class="section-subtitle">
+        A curated set of technologies I rely on for building production-grade
+        data platforms, pipelines, and analytics layers.
+      </p>
+
+      <div class="tech-categories">
+
+        <!-- ── Cloud Platforms ── -->
+        <div>
+          <p class="tech-category-title">☁ Cloud Platforms</p>
+          <div class="tech-pills" role="list">
+            <span class="tech-pill" role="listitem"><i class="fab fa-google"></i> Google Cloud (GCP)</span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-aws"></i> Amazon Web Services</span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-microsoft"></i> Microsoft Azure</span>
+          </div>
+        </div>
+
+        <!-- ── Data Engineering ── -->
+        <div>
+          <p class="tech-category-title">⚙ Data Engineering & Orchestration</p>
+          <div class="tech-pills" role="list">
+            <span class="tech-pill" role="listitem"><i class="fas fa-wind"></i> Apache Airflow</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-bolt"></i> Apache Spark</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-stream"></i> Apache Kafka</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-cube"></i> dbt (Core & Cloud)</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-layer-group"></i> Delta Lake</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-tachometer-alt"></i> Prefect</span>
+          </div>
+        </div>
+
+        <!-- ── Data Warehouses & Storage ── -->
+        <div>
+          <p class="tech-category-title">🗄 Data Warehouses & Storage</p>
+          <div class="tech-pills" role="list">
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> BigQuery</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> Snowflake</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> Redshift</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-archive"></i> Cloud Storage / S3</span>
+          </div>
+        </div>
+
+        <!-- ── Analytics & BI ── -->
+        <div>
+          <p class="tech-category-title">📊 Analytics & BI</p>
+          <div class="tech-pills" role="list">
+            <span class="tech-pill" role="listitem"><i class="fas fa-chart-bar"></i> Looker / Looker Studio</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-chart-pie"></i> Power BI</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-table"></i> Tableau</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-microscope"></i> Metabase</span>
+          </div>
+        </div>
+
+        <!-- ── Languages & IaC ── -->
+        <div>
+          <p class="tech-category-title">💻 Languages & Infrastructure</p>
+          <div class="tech-pills" role="list">
+            <span class="tech-pill" role="listitem"><i class="fab fa-python"></i> Python</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-code"></i> SQL</span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-docker"></i> Docker</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-cubes"></i> Terraform</span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-git-alt"></i> Git / GitHub</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
+          </div>
+        </div>
+
+      </div><!-- /.tech-categories -->
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       PROJECTS SECTION
+       ── How it works ──────────────────────────────────────
+       Filter buttons control which cards are visible using JS.
+       Each card has a data-category attribute that the filter
+       button logic matches against.
+
+       CUSTOMISE:
+       • Update each .project-card with your real project info
+       • Add more cards by copying the template block
+       • Update data-category to match your filter buttons
+       • Update the GitHub / Live demo hrefs
+       • Pick an icon + bg colour that fits each project domain
+  ══════════════════════════════════════════════════════ -->
+  <section id="projects" class="section" aria-labelledby="projects-heading">
+    <div class="container">
+      <p class="section-label">03 — Projects</p>
+      <h2 class="section-title" id="projects-heading">Things I've built.</h2>
+      <p class="section-subtitle">
+        A selection of data engineering and analytics projects — each one a chance
+        to solve a real problem at scale.
+      </p>
+
+      <!-- Filter buttons — add new buttons to match new categories you define -->
+      <div class="project-filters" role="group" aria-label="Filter projects by category">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="pipeline">Data Pipelines</button>
+        <button class="filter-btn" data-filter="analytics">Analytics</button>
+        <button class="filter-btn" data-filter="cloud">Cloud Infra</button>
+        <button class="filter-btn" data-filter="streaming">Streaming</button>
+      </div>
+
+      <div class="projects-grid" id="projects-grid">
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 1 — Urban Mobility Data Platform
+             (Your featured / anchor project)
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="pipeline streaming"
+                 aria-labelledby="proj1-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(0,212,255,0.12); color:var(--accent-primary);">
+              🚇
+            </div>
+            <div class="project-links">
+              <!-- Replace href with your real GitHub URL -->
+              <a href="https://github.com/DavidAbeAnalytics/urban-mobility-platform"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+                <span class="sr-only">GitHub</span>
+              </a>
+              <!-- Add a live demo link if you have one; otherwise remove this -->
+              <a href="#" class="project-link" title="View live demo" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                <span class="sr-only">Live Demo</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="project-body">
+            <p class="project-category">Data Pipeline · Streaming</p>
+            <h3 class="project-title" id="proj1-title">Urban Mobility Data Platform</h3>
+            <p class="project-desc">
+              End-to-end streaming data platform ingesting real-time transit data
+              from 50+ city feeds. Built on Apache Kafka + Spark Structured Streaming
+              with a dbt-modelled BigQuery warehouse and Looker Studio dashboards.
+            </p>
+            <!-- Quantified impact metrics — the most important section for impressing recruiters -->
+            <div class="project-metrics">
+              <span class="metric-badge">↑ 10M events/day</span>
+              <span class="metric-badge">↓ 40% query cost</span>
+              <span class="metric-badge">99.9% uptime</span>
+            </div>
+            <!-- Tech tags — keep concise, 4-6 tags max per card -->
+            <div class="project-tags">
+              <span class="tag">Kafka</span>
+              <span class="tag">Spark</span>
+              <span class="tag">BigQuery</span>
+              <span class="tag">dbt</span>
+              <span class="tag">Airflow</span>
+              <span class="tag">GCP</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 2 — E-Commerce Analytics Warehouse
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="analytics pipeline"
+                 aria-labelledby="proj2-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(245,158,11,0.12); color:var(--accent-secondary);">
+              🛒
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/ecommerce-warehouse"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <p class="project-category">Analytics · Data Warehouse</p>
+            <h3 class="project-title" id="proj2-title">E-Commerce Analytics Warehouse</h3>
+            <p class="project-desc">
+              Designed a star-schema Snowflake warehouse for a retail client,
+              with dbt models covering orders, inventory, and customer lifetime value.
+              Reduced reporting query time from 45s to under 2s.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">↓ 95% query time</span>
+              <span class="metric-badge">200+ dbt models</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Snowflake</span>
+              <span class="tag">dbt</span>
+              <span class="tag">Python</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">AWS S3</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 3 — Real-Time Fraud Detection Pipeline
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="streaming pipeline"
+                 aria-labelledby="proj3-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(16,185,129,0.12); color:var(--accent-green);">
+              🔒
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/fraud-detection-pipeline"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <p class="project-category">Streaming · ML Engineering</p>
+            <h3 class="project-title" id="proj3-title">Real-Time Fraud Detection Pipeline</h3>
+            <p class="project-desc">
+              Built a sub-100ms Kafka Streams pipeline that scores financial
+              transactions with a trained XGBoost model deployed on Vertex AI.
+              Processes 5M transactions daily with a 0.3% false-positive rate.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">&lt;100ms latency</span>
+              <span class="metric-badge">5M txn/day</span>
+              <span class="metric-badge">0.3% FPR</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Kafka</span>
+              <span class="tag">Vertex AI</span>
+              <span class="tag">XGBoost</span>
+              <span class="tag">GCP</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 4 — Cloud Data Lakehouse (AWS)
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="cloud pipeline"
+                 aria-labelledby="proj4-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(99,102,241,0.12); color:#818CF8;">
+              🏞
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/aws-lakehouse"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <p class="project-category">Cloud Infra · Lakehouse</p>
+            <h3 class="project-title" id="proj4-title">AWS Data Lakehouse Architecture</h3>
+            <p class="project-desc">
+              Designed and deployed a Delta Lake-based lakehouse on AWS using
+              Glue, S3, Athena, and Terraform. Implemented bronze / silver / gold
+              medallion architecture with automated data quality checks.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">Medallion Architecture</span>
+              <span class="metric-badge">IaC (Terraform)</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Delta Lake</span>
+              <span class="tag">AWS Glue</span>
+              <span class="tag">Terraform</span>
+              <span class="tag">Athena</span>
+              <span class="tag">S3</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 5 — Customer 360 Analytics
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="analytics"
+                 aria-labelledby="proj5-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(236,72,153,0.12); color:#F472B6;">
+              👤
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/customer360"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <p class="project-category">Analytics · Data Modelling</p>
+            <h3 class="project-title" id="proj5-title">Customer 360 Analytics Platform</h3>
+            <p class="project-desc">
+              Built a unified customer view by joining CRM, web analytics, and
+              purchase data in BigQuery. Delivered segmentation models and
+              dashboards that drove a 22% lift in targeted campaign conversion.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">+22% conversion lift</span>
+              <span class="metric-badge">12 data sources</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">BigQuery</span>
+              <span class="tag">dbt</span>
+              <span class="tag">Looker</span>
+              <span class="tag">Python</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ────────────────────────────────────────────────
+             PROJECT CARD 6 — Data Quality Framework
+        ──────────────────────────────────────────────────── -->
+        <article class="project-card reveal" data-category="pipeline analytics"
+                 aria-labelledby="proj6-title">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(251,191,36,0.12); color:#FCD34D;">
+              ✅
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/data-quality-framework"
+                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <p class="project-category">Data Quality · Observability</p>
+            <h3 class="project-title" id="proj6-title">Automated Data Quality Framework</h3>
+            <p class="project-desc">
+              Open-source framework combining dbt tests, Great Expectations, and
+              custom Python checks. Deployed across 3 production warehouses.
+              Reduced data incidents by 70% in the first quarter.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">↓ 70% incidents</span>
+              <span class="metric-badge">3 warehouses</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">dbt Tests</span>
+              <span class="tag">Great Expectations</span>
+              <span class="tag">Python</span>
+              <span class="tag">Slack Alerts</span>
+            </div>
+          </div>
+        </article>
+
+        <!--
+          ══ ADD MORE PROJECTS HERE ══
+          Copy and paste the block below for each additional project.
+          Update all the content (icon, title, description, metrics, tags, links).
+
+          <article class="project-card reveal" data-category="pipeline"
+                   aria-labelledby="proj7-title">
+            <div class="project-header">
+              <div class="project-icon" style="background:rgba(0,212,255,0.12); color:var(--accent-primary);">
+                📦
+              </div>
+              <div class="project-links">
+                <a href="YOUR_GITHUB_URL" class="project-link" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-body">
+              <p class="project-category">Category Label</p>
+              <h3 class="project-title" id="proj7-title">Project Title</h3>
+              <p class="project-desc">Your project description here.</p>
+              <div class="project-metrics">
+                <span class="metric-badge">Key metric</span>
+              </div>
+              <div class="project-tags">
+                <span class="tag">Tag 1</span>
+                <span class="tag">Tag 2</span>
+              </div>
+            </div>
+          </article>
+        -->
+
+      </div><!-- /#projects-grid -->
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       EXPERIENCE SECTION — Timeline
+       ── How it works ──────────────────────────────────────
+       Vertical timeline with one .timeline-item per role.
+       A CSS ::before pseudo-element creates the vertical line
+       and the dot marker.
+
+       CUSTOMISE:
+       • Replace dates, roles, companies, descriptions
+       • Add bullet points for key achievements (use <li> in ul.timeline-achievements)
+       • Add more .timeline-item blocks for additional roles
+  ══════════════════════════════════════════════════════ -->
+  <section id="experience" class="section" aria-labelledby="exp-heading">
+    <div class="container">
+      <p class="section-label">04 — Experience</p>
+      <h2 class="section-title" id="exp-heading">Where I've worked.</h2>
+      <p class="section-subtitle">
+        A track record of delivering data infrastructure and analytics
+        solutions in production environments.
+      </p>
+
+      <div class="timeline">
+
+        <!-- ── Role 1 (Most Recent) ── -->
+        <div class="timeline-item reveal">
+          <p class="timeline-date">Jan 2023 — Present</p>
+          <h3 class="timeline-role">Senior Data Engineer</h3>
+          <p class="timeline-company">Company Name · Full-time · Remote</p>
+          <p class="timeline-desc">
+            Lead the data infrastructure team responsible for ingestion, transformation,
+            and serving layers for 15+ internal product teams.
+          </p>
+          <ul class="timeline-achievements">
+            <li>Architected a real-time event streaming platform on GCP handling 10M+ events/day.</li>
+            <li>Reduced dbt model run time by 60% through incremental materialisation and partitioning strategies.</li>
+            <li>Mentored 3 junior engineers on data modelling and pipeline best practices.</li>
+          </ul>
+        </div>
+
+        <!-- ── Role 2 ── -->
+        <div class="timeline-item reveal">
+          <p class="timeline-date">Mar 2021 — Dec 2022</p>
+          <h3 class="timeline-role">Analytics Engineer</h3>
+          <p class="timeline-company">Company Name · Full-time · Hybrid</p>
+          <p class="timeline-desc">
+            Owned the analytics layer (dbt + Looker) for a fintech platform,
+            translating raw transactional data into reliable, self-serve metrics.
+          </p>
+          <ul class="timeline-achievements">
+            <li>Built a customer 360 data model joining 12 disparate data sources into a single Snowflake warehouse.</li>
+            <li>Delivered dashboards used by 200+ business stakeholders weekly.</li>
+            <li>Introduced dbt testing framework that caught 70% more data quality issues before production.</li>
+          </ul>
+        </div>
+
+        <!-- ── Role 3 ── -->
+        <div class="timeline-item reveal">
+          <p class="timeline-date">Jun 2020 — Feb 2021</p>
+          <h3 class="timeline-role">Data Engineer (Contract)</h3>
+          <p class="timeline-company">Company Name · Contract · Remote</p>
+          <p class="timeline-desc">
+            Migrated on-premise ETL processes to cloud-native pipelines on AWS,
+            improving reliability and reducing infrastructure costs.
+          </p>
+          <ul class="timeline-achievements">
+            <li>Migrated 20+ legacy SSIS packages to Apache Airflow DAGs on AWS MWAA.</li>
+            <li>Reduced monthly cloud infrastructure costs by 35% through right-sizing and spot instance strategy.</li>
+          </ul>
+        </div>
+
+        <!--
+          ══ ADD MORE ROLES HERE ══
+          Copy and paste the block below.
+
+          <div class="timeline-item reveal">
+            <p class="timeline-date">Month Year — Month Year</p>
+            <h3 class="timeline-role">Role Title</h3>
+            <p class="timeline-company">Company Name · Type · Location</p>
+            <p class="timeline-desc">Short summary of what you did.</p>
+            <ul class="timeline-achievements">
+              <li>Achievement with measurable impact.</li>
+              <li>Another achievement.</li>
+            </ul>
+          </div>
+        -->
+
+      </div><!-- /.timeline -->
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       CONTACT SECTION
+       ── How it works ──────────────────────────────────────
+       Centered card with a mailto link and social icon grid.
+
+       CUSTOMISE:
+       • Replace the email address
+       • Update all social links (GitHub, LinkedIn, Twitter/X)
+       • Remove any platforms you don't use
+  ══════════════════════════════════════════════════════ -->
+  <section id="contact" class="section" aria-labelledby="contact-heading">
+    <div class="container">
+      <p class="section-label" style="justify-content:center;">05 — Contact</p>
+      <h2 class="section-title" id="contact-heading" style="text-align:center;">
+        Let's build something together.
+      </h2>
+
+      <div class="contact-card reveal">
+        <p style="color:var(--text-secondary); max-width:500px; margin:0 auto;">
+          I'm open to data engineering roles, freelance projects, and collaborations.
+          Whether you have a project in mind or just want to connect — my inbox is open.
+        </p>
+
+        <!-- Replace with your real email address -->
+        <a href="mailto:20.davidabe@gmail.com" class="contact-email">
+          20.davidabe@gmail.com
+        </a>
+
+        <!-- Social links — update each href -->
+        <div class="social-links" role="list" aria-label="Social profiles">
+
+          <a href="https://github.com/DavidAbeAnalytics" class="social-link" role="listitem"
+             title="GitHub" target="_blank" rel="noopener">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span>
+          </a>
+
+          <a href="https://www.linkedin.com/in/abe-david/" class="social-link" role="listitem"
+             title="LinkedIn" target="_blank" rel="noopener">
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+            <span class="sr-only">LinkedIn</span>
+          </a>
+
+          <a href="https://twitter.com/yourhandle" class="social-link" role="listitem"
+             title="Twitter / X" target="_blank" rel="noopener">
+            <i class="fab fa-twitter" aria-hidden="true"></i>
+            <span class="sr-only">Twitter</span>
+          </a>
+
+          <!-- Optional: Medium, Dev.to, or Hashnode if you blog -->
+          <a href="https://medium.com/@yourhandle" class="social-link" role="listitem"
+             title="Medium" target="_blank" rel="noopener">
+            <i class="fab fa-medium-m" aria-hidden="true"></i>
+            <span class="sr-only">Medium</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <p>
+        Designed & built by <span>David Abe</span> ·
+        Hosted on <span>GitHub Pages</span> ·
+        <span id="footer-year"></span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════
+       JAVASCRIPT
+       ══════════════════════════════════════════════════════
+       This block handles:
+       1. Canvas pipeline animation (hero background)
+       2. Scroll reveal (fade-in on scroll)
+       3. Skill bar animations
+       4. Counter animation (hero stats)
+       5. Project filter tabs
+       6. Mobile nav toggle
+       7. Footer year
+  ══════════════════════════════════════════════════════ -->
+  <script>
+    /* ─── 1. CANVAS PIPELINE ANIMATION ────────────────────
+       Draws an animated node-graph that represents a data
+       pipeline. Nodes are connected by edges along which
+       small "data packets" travel, left to right.
+
+       How it works:
+       - We create a set of Node objects at random positions
+       - We connect nodes with weighted edges (pipeline paths)
+       - On each animation frame we:
+         a) Draw the connecting edges as glowing lines
+         b) Move small circle "packets" along the edges
+         c) Draw the node dots
+       - The canvas resizes automatically with the window
+    ─────────────────────────────────────────────────── */
+    (function initCanvas() {
+      const canvas = document.getElementById('pipeline-canvas');
+      const ctx    = canvas.getContext('2d');
+
+      // Match canvas resolution to display size
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const CYAN  = '#00D4FF';
+      const AMBER = '#F59E0B';
+      const GREEN = '#10B981';
+      const MUTED = 'rgba(30,48,80,0.8)';
+
+      // ── Node class ──────────────────────────────────────
+      class Node {
+        constructor(x, y, label) {
+          this.x      = x;
+          this.y      = y;
+          this.label  = label;
+          this.radius = 5;
+          this.pulse  = 0;     // used for the glow animation
+        }
+        draw() {
+          this.pulse = (this.pulse + 0.05) % (Math.PI * 2);
+          const glow = Math.sin(this.pulse) * 0.5 + 0.5;
+
+          // Outer glow ring
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius + 8 * glow, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,212,255,${0.05 * glow})`;
+          ctx.fill();
+
+          // Node dot
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = CYAN;
+          ctx.fill();
+
+          // Label
+          ctx.fillStyle = 'rgba(240,246,255,0.5)';
+          ctx.font = '11px JetBrains Mono, monospace';
+          ctx.fillText(this.label, this.x + 10, this.y + 4);
+        }
+      }
+
+      // ── Packet class (moving dots along edges) ──────────
+      class Packet {
+        constructor(from, to, color) {
+          this.from     = from;
+          this.to       = to;
+          this.progress = Math.random(); // start at random position
+          this.speed    = 0.003 + Math.random() * 0.004;
+          this.color    = color;
+        }
+        update() {
+          this.progress += this.speed;
+          if (this.progress > 1) this.progress = 0;
+        }
+        draw() {
+          const x = this.from.x + (this.to.x - this.from.x) * this.progress;
+          const y = this.from.y + (this.to.y - this.from.y) * this.progress;
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+          // Trail glow
+          ctx.shadowBlur  = 8;
+          ctx.shadowColor = this.color;
+          ctx.fill();
+          ctx.shadowBlur  = 0;
+        }
+      }
+
+      // ── Build the node graph ─────────────────────────────
+      // Positions are expressed as fractions of canvas size
+      // so they scale with the viewport.
+      let nodes, edges, packets;
+
+      function buildGraph() {
+        const w = canvas.width;
+        const h = canvas.height;
+
+        nodes = [
+          // Ingest layer
+          new Node(w * 0.08, h * 0.3,  'Source A'),
+          new Node(w * 0.08, h * 0.55, 'Source B'),
+          new Node(w * 0.08, h * 0.75, 'Source C'),
+          // Ingestion broker
+          new Node(w * 0.28, h * 0.45, 'Kafka'),
+          // Processing
+          new Node(w * 0.48, h * 0.35, 'Spark'),
+          new Node(w * 0.48, h * 0.62, 'Airflow'),
+          // Storage
+          new Node(w * 0.68, h * 0.28, 'BigQuery'),
+          new Node(w * 0.68, h * 0.55, 'Delta Lake'),
+          // Serving
+          new Node(w * 0.88, h * 0.38, 'dbt'),
+          new Node(w * 0.88, h * 0.62, 'Looker'),
+        ];
+
+        edges = [
+          [0, 3], [1, 3], [2, 3],
+          [3, 4], [3, 5],
+          [4, 6], [4, 7],
+          [5, 7],
+          [6, 8], [7, 8],
+          [8, 9],
+        ];
+
+        const colours = [CYAN, AMBER, GREEN];
+        packets = [];
+        edges.forEach(([a, b], i) => {
+          const n = Math.floor(Math.random() * 2) + 1;
+          for (let k = 0; k < n; k++) {
+            packets.push(new Packet(nodes[a], nodes[b], colours[i % colours.length]));
+          }
+        });
+      }
+
+      // ── Draw edges (pipeline connections) ───────────────
+      function drawEdges() {
+        edges.forEach(([a, b]) => {
+          const n1 = nodes[a], n2 = nodes[b];
+          ctx.beginPath();
+          ctx.moveTo(n1.x, n1.y);
+          ctx.lineTo(n2.x, n2.y);
+          ctx.strokeStyle = MUTED;
+          ctx.lineWidth   = 1;
+          ctx.stroke();
+        });
+      }
+
+      // ── Animation loop ───────────────────────────────────
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawEdges();
+        packets.forEach(p => { p.update(); p.draw(); });
+        nodes.forEach(n => n.draw());
+        requestAnimationFrame(animate);
+      }
+
+      // Rebuild graph on resize so node positions stay proportional
+      window.addEventListener('resize', () => { resize(); buildGraph(); });
+
+      buildGraph();
+      animate();
+    })();
+
+
+    /* ─── 2. SCROLL REVEAL ─────────────────────────────────
+       IntersectionObserver watches for elements with class
+       .reveal entering the viewport. When they do, it adds
+       .visible which triggers the CSS fade-up transition.
+    ─────────────────────────────────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target); // animate once
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+    /* ─── 3. SKILL BAR ANIMATIONS ──────────────────────────
+       When a .skill-fill enters the viewport its width
+       transitions from 0 to the value in data-pct.
+    ─────────────────────────────────────────────────── */
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.dataset.pct + '%';
+          });
+          skillObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const skillsGrid = document.querySelector('.skills-grid');
+    if (skillsGrid) skillObserver.observe(skillsGrid);
+
+
+    /* ─── 4. COUNTER ANIMATION (Hero stats) ────────────────
+       Animates numbers from 0 up to their data-count value
+       when the hero section mounts.
+    ─────────────────────────────────────────────────── */
+    function animateCounter(el, target, duration = 1500) {
+      let start = null;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        // Ease-out: fast start, slow end
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target) + (target >= 10 ? '+' : '');
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    // Kick off counters after a short delay so the page has painted
+    setTimeout(() => {
+      document.querySelectorAll('[data-count]').forEach(el => {
+        animateCounter(el, parseInt(el.dataset.count, 10));
+      });
+    }, 600);
+
+
+    /* ─── 5. PROJECT FILTERS ───────────────────────────────
+       Clicking a filter button toggles the .active class and
+       hides cards whose data-category doesn't include the
+       selected filter. "all" shows everything.
+    ─────────────────────────────────────────────────── */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category.includes(filter)) {
+            card.style.display = 'flex';
+            // Re-trigger reveal animation
+            setTimeout(() => card.classList.add('visible'), 50);
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+
+    /* ─── 6. MOBILE NAV TOGGLE ─────────────────────────────
+       The hamburger button adds/removes the .open class on
+       the nav links list to show/hide it on small screens.
+    ─────────────────────────────────────────────────── */
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks  = document.getElementById('nav-links');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close nav when any link is clicked (smooth UX on mobile)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+
+    /* ─── 7. FOOTER YEAR ───────────────────────────────────
+       Automatically keeps the copyright year current
+       without you needing to update the HTML manually.
+    ─────────────────────────────────────────────────── */
+    document.getElementById('footer-year').textContent =
+      '© ' + new Date().getFullYear();
+
+  </script>
+</body>
+</html>
