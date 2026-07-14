@@ -1,134 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--
-  ============================================================
-  PORTFOLIO — Cloud & Analytics Data Engineer
-  ============================================================
-  FILE STRUCTURE:
-  ├── index.html          ← You are here (single-page portfolio)
-  ├── assets/
-  │   ├── images/         ← Add your profile photo here
-  │   └── resume.pdf      ← Drop your CV here
-  └── README.md
-
-  SECTIONS IN THIS FILE:
-  1.  <head>             — Meta tags, Google Fonts, base styles
-  2.  Navigation         — Fixed top nav with smooth scroll links
-  3.  Hero               — Animated data-pipeline canvas + intro
-  4.  About              — Bio + skills matrix
-  5.  Tech Stack         — Visual icon grid of tools/tech
-  6.  Projects           — Cards for each featured project
-  7.  Experience         — Timeline of work history
-  8.  Contact            — Social links + email CTA
-  9.  Footer             — Copyright
-  10. <script>           — Canvas animation + interactions
-  ============================================================
--->
 <head>
-  <!-- ── CHARSET & VIEWPORT ────────────────────────────────
-       charset: ensures special characters render correctly.
-       viewport: makes the page responsive on mobile devices.
-  ──────────────────────────────────────────────────────── -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ── SEO META TAGS ─────────────────────────────────────
-       Replace the content values with David Abe and description.
-       These appear in Google search results and link previews.
-  ──────────────────────────────────────────────────────── -->
   <title>David Abe | Cloud & Analytics Data Engineer</title>
-  <meta name="description" content="Cloud Data Engineer and Analytics Engineer specialising in scalable data platforms, real-time pipelines, and BI solutions. View my projects and experience." />
+  <meta name="description" content="Cloud Data Engineer and Analytics Engineer specialising in scalable ELT pipelines, BigQuery, dbt, and Power BI." />
   <meta name="author" content="David Abe" />
-
-  <!-- ── OPEN GRAPH (Social Previews) ──────────────────────
-       When someone shares your URL on LinkedIn / Twitter,
-       these tags control the preview card that appears.
-       og:image should point to a 1200×630px screenshot of your site.
-  ──────────────────────────────────────────────────────── -->
   <meta property="og:title" content="David Abe | Cloud & Analytics Data Engineer" />
-  <meta property="og:description" content="Building scalable data platforms and analytics solutions." />
+  <meta property="og:description" content="Building scalable data platforms and analytics solutions on GCP." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://DavidAbeAnalytics.github.io" />
-  <!-- <meta property="og:image" content="https://yourusername.github.io/assets/images/og-preview.png" /> -->
 
-  <!-- ── FONTS ──────────────────────────────────────────────
-       Space Grotesk → headings / display text (geometric, technical feel)
-       Inter         → body text (highly legible at small sizes)
-       JetBrains Mono→ code snippets and terminal-style labels
-       Loaded from Google Fonts CDN (free, no install needed).
-  ──────────────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <!-- ── FONT AWESOME (Icons) ──────────────────────────────
-       Free icon library. Used for tech stack icons, social links,
-       and section labels. CDN version — no download needed.
-  ──────────────────────────────────────────────────────── -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    /* ══════════════════════════════════════════════════════
-       1. CSS CUSTOM PROPERTIES (Design Tokens)
-       ══════════════════════════════════════════════════════
-       Defining colors, fonts, and spacing as variables means
-       you only need to change one value to update the whole site.
-       E.g. changing --accent-primary here updates every cyan
-       element across every section automatically.
-    ══════════════════════════════════════════════════════ */
     :root {
-      /* Colors */
-      --bg-deep:        #070C18;   /* darkest background */
-      --bg-surface:     #0D1526;   /* card / section backgrounds */
-      --bg-elevated:    #132035;   /* hover states, code blocks */
-      --border:         #1E3050;   /* subtle dividing lines */
-      --accent-primary: #00D4FF;   /* electric cyan — main brand color */
-      --accent-secondary:#F59E0B;  /* amber — highlights & badges */
-      --accent-green:   #10B981;   /* success / active states */
-      --text-primary:   #F0F6FF;   /* headings */
-      --text-secondary: #8892A4;   /* body / muted text */
-      --text-muted:     #4A5568;   /* timestamps, labels */
-
-      /* Typography */
+      --bg-deep:        #070C18;
+      --bg-surface:     #0D1526;
+      --bg-elevated:    #132035;
+      --border:         #1E3050;
+      --accent-primary: #00D4FF;
+      --accent-secondary:#F59E0B;
+      --accent-green:   #10B981;
+      --text-primary:   #F0F6FF;
+      --text-secondary: #8892A4;
+      --text-muted:     #4A5568;
       --font-display: 'Space Grotesk', sans-serif;
       --font-body:    'Inter', sans-serif;
       --font-mono:    'JetBrains Mono', monospace;
-
-      /* Spacing Scale */
       --space-xs:  0.25rem;
       --space-sm:  0.5rem;
       --space-md:  1rem;
       --space-lg:  2rem;
       --space-xl:  4rem;
       --space-2xl: 8rem;
-
-      /* Misc */
       --radius-sm: 6px;
       --radius-md: 12px;
       --radius-lg: 20px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --glow-cyan:  0 0 20px rgba(0, 212, 255, 0.3);
-      --glow-amber: 0 0 20px rgba(245, 158, 11, 0.3);
     }
 
-    /* ══════════════════════════════════════════════════════
-       2. RESET & BASE STYLES
-       ══════════════════════════════════════════════════════
-       * selector resets browser defaults so layout is consistent
-       across Chrome, Firefox, Safari, Edge.
-       box-sizing: border-box means padding is included in width
-       calculations (avoids overflow surprises).
-    ══════════════════════════════════════════════════════ */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;         /* enables smooth scrolling between sections */
-      scroll-padding-top: 70px;        /* offset for the fixed navigation bar */
-    }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 
     body {
       background-color: var(--bg-deep);
@@ -136,47 +54,19 @@
       font-family: var(--font-body);
       font-size: 1rem;
       line-height: 1.7;
-      overflow-x: hidden;              /* prevent horizontal scrollbar */
+      overflow-x: hidden;
     }
 
-    /* Accessibility: skip-to-content link for keyboard users */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 1rem;
-      background: var(--accent-primary);
-      color: var(--bg-deep);
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      font-weight: 600;
-      z-index: 1000;
-      transition: top var(--transition);
-    }
-    .skip-link:focus { top: 1rem; }
-
-    a {
-      color: var(--accent-primary);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
+    a { color: var(--accent-primary); text-decoration: none; transition: color var(--transition); }
     a:hover { color: var(--text-primary); }
-
     img { max-width: 100%; height: auto; display: block; }
 
-    /* Utility: constrain content width and center it */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 var(--space-lg);
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-lg); }
 
-    /* ── Section wrapper ─────────────────────────────────── */
-    .section {
-      padding: var(--space-2xl) 0;
-    }
+    .section { padding: var(--space-2xl) 0; }
+
+    /* Section labels — clean, no numbering */
     .section-label {
-      /* Small eyebrow label above section titles */
       font-family: var(--font-mono);
       font-size: 0.75rem;
       color: var(--accent-primary);
@@ -195,7 +85,7 @@
     }
     .section-title {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 3rem); /* scales fluidly between screen sizes */
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 700;
       color: var(--text-primary);
       line-height: 1.1;
@@ -208,1105 +98,560 @@
       margin-bottom: var(--space-xl);
     }
 
-    /* ══════════════════════════════════════════════════════
-       3. NAVIGATION
-       ══════════════════════════════════════════════════════
-       Fixed to the top of the viewport so it stays visible
-       while scrolling. Backdrop-filter creates the frosted
-       glass effect over the dark background.
-    ══════════════════════════════════════════════════════ */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(7, 12, 24, 0.85);
-      backdrop-filter: blur(16px);          /* frosted glass */
+      backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       height: 64px;
     }
-
     .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 var(--space-lg);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 1200px; margin: 0 auto; padding: 0 var(--space-lg);
+      height: 100%; display: flex; align-items: center; justify-content: space-between;
     }
-
-    /* Logo — replace "YN" with your initials */
+    /* Clean wordmark logo — no box, no initials */
     .nav-logo {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
+      letter-spacing: -0.01em;
     }
-    .nav-logo span {
-      /* The highlighted initial box */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: var(--accent-primary);
-      color: var(--bg-deep);
-      font-size: 0.9rem;
-      border-radius: var(--radius-sm);
-    }
+    .nav-logo .dot { color: var(--accent-primary); }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: var(--space-lg);
-      list-style: none;
+      display: flex; align-items: center; gap: var(--space-lg); list-style: none;
     }
-
     .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      letter-spacing: 0.05em;
-      transition: color var(--transition);
-      position: relative;
-      padding-bottom: 2px;
+      font-family: var(--font-mono); font-size: 0.8rem;
+      color: var(--text-secondary); letter-spacing: 0.05em;
+      transition: color var(--transition); position: relative; padding-bottom: 2px;
     }
-
-    /* Underline grows from left on hover */
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--accent-primary);
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: var(--accent-primary);
       transition: width var(--transition);
     }
     .nav-links a:hover { color: var(--accent-primary); }
     .nav-links a:hover::after { width: 100%; }
-
-    /* CTA button in nav */
     .btn-nav {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-family: var(--font-mono); font-size: 0.8rem;
       color: var(--accent-primary) !important;
       border: 1px solid var(--accent-primary);
-      padding: 0.4rem 1rem;
-      border-radius: var(--radius-sm);
+      padding: 0.4rem 1rem; border-radius: var(--radius-sm);
       transition: all var(--transition) !important;
     }
-    .btn-nav:hover {
-      background: var(--accent-primary) !important;
-      color: var(--bg-deep) !important;
-    }
+    .btn-nav:hover { background: var(--accent-primary) !important; color: var(--bg-deep) !important; }
     .btn-nav::after { display: none !important; }
 
-    /* Hamburger menu for mobile */
     .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-      background: none;
-      border: none;
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; background: none; border: none;
     }
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--text-primary);
-      transition: all var(--transition);
-    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text-primary); transition: all var(--transition); }
 
-    /* ══════════════════════════════════════════════════════
-       4. HERO SECTION
-       ══════════════════════════════════════════════════════
-       Full-viewport-height opening section. The <canvas>
-       element behind the text renders an animated node graph
-       that visualises a data pipeline — built entirely in JS.
-    ══════════════════════════════════════════════════════ */
+    /* HERO */
     #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      padding-top: 64px; /* offset the fixed nav */
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden; padding-top: 64px;
     }
-
-    /* Canvas sits behind all hero content */
     #pipeline-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.6;
+      position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.55;
     }
-
-    /* Gradient overlay so text stays readable */
     #hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(7, 12, 24, 0.85) 0%,
-        rgba(7, 12, 24, 0.4) 60%,
-        rgba(7, 12, 24, 0.7) 100%
-      );
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(7,12,24,0.9) 0%, rgba(7,12,24,0.45) 60%, rgba(7,12,24,0.75) 100%);
       pointer-events: none;
     }
-
     .hero-content {
-      position: relative;
-      z-index: 1;           /* sits above the canvas and gradient */
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 var(--space-lg);
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 0 var(--space-lg);
     }
-
-    /* Blinking cursor effect on the role label */
+    /* Role label — no blinking cursor, clean */
     .hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      color: var(--accent-primary);
-      margin-bottom: var(--space-md);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
+      font-family: var(--font-mono); font-size: 0.9rem;
+      color: var(--accent-primary); margin-bottom: var(--space-md);
     }
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.1em;
-      background: var(--accent-primary);
-      animation: blink 1s step-end infinite;
-      vertical-align: middle;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
-
     .hero-name {
       font-family: var(--font-display);
       font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1;
-      margin-bottom: var(--space-md);
+      font-weight: 700; color: var(--text-primary);
+      line-height: 1; margin-bottom: var(--space-md);
     }
-
-    /* Cyan gradient on the title highlight */
     .hero-name .highlight {
       background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
     .hero-tagline {
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin-bottom: var(--space-xl);
-      line-height: 1.6;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: var(--text-secondary); max-width: 580px;
+      margin-bottom: var(--space-xl); line-height: 1.65;
     }
+    .hero-tagline strong { color: var(--text-primary); font-weight: 500; }
 
-    /* Pipeline stats strip below the tagline */
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-lg);
-      margin-bottom: var(--space-xl);
-    }
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-    }
+    /* Stats — dynamic label so "6+" grows as you add projects */
+    .hero-stats { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+    .stat-item { display: flex; flex-direction: column; }
     .stat-value {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent-primary);
-      line-height: 1;
+      font-family: var(--font-display); font-size: 2rem;
+      font-weight: 700; color: var(--accent-primary); line-height: 1;
     }
     .stat-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-top: 4px;
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-top: 4px;
     }
 
-    /* CTA buttons */
-    .hero-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-md);
-    }
-
+    .hero-cta { display: flex; flex-wrap: wrap; gap: var(--space-md); }
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      background: var(--accent-primary);
-      color: var(--bg-deep);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.85rem 1.75rem;
-      border-radius: var(--radius-sm);
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition);
-      letter-spacing: 0.05em;
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      background: var(--accent-primary); color: var(--bg-deep);
+      font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600;
+      padding: 0.85rem 1.75rem; border-radius: var(--radius-sm);
+      border: none; cursor: pointer; transition: all var(--transition);
     }
-    .btn-primary:hover {
-      background: #fff;
-      color: var(--bg-deep);
-      transform: translateY(-2px);
-      box-shadow: var(--glow-cyan);
-    }
-
+    .btn-primary:hover { background: #fff; color: var(--bg-deep); transform: translateY(-2px); box-shadow: var(--glow-cyan); }
     .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      background: transparent;
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 0.85rem 1.75rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: all var(--transition);
-      letter-spacing: 0.05em;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: transparent; color: var(--text-primary);
+      font-family: var(--font-mono); font-size: 0.85rem;
+      padding: 0.85rem 1.75rem; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); cursor: pointer; transition: all var(--transition);
     }
-    .btn-outline:hover {
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-      transform: translateY(-2px);
-    }
+    /* Fixed: icon inside btn-outline properly sized and centered */
+    .btn-outline i { font-size: 0.8rem; display: flex; align-items: center; }
+    .btn-outline:hover { border-color: var(--accent-primary); color: var(--accent-primary); transform: translateY(-2px); }
 
-    /* Scroll indicator at the bottom of the hero */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-    }
-    .scroll-indicator .arrow {
-      width: 20px;
-      height: 20px;
-      border-right: 2px solid var(--text-muted);
-      border-bottom: 2px solid var(--text-muted);
-      transform: rotate(45deg);
-      animation: bounce 1.5s ease-in-out infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: rotate(45deg) translateY(0); }
-      50%       { transform: rotate(45deg) translateY(6px); }
-    }
 
-    /* ══════════════════════════════════════════════════════
-       5. ABOUT SECTION
-       ══════════════════════════════════════════════════════
-       Two-column layout: text bio on the left,
-       profile photo + skill bars on the right.
-    ══════════════════════════════════════════════════════ */
+
+    /* ABOUT */
     .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-xl);
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl); align-items: start;
     }
+    .about-bio p { color: var(--text-secondary); margin-bottom: var(--space-md); line-height: 1.8; }
 
-    .about-bio p {
-      color: var(--text-secondary);
-      margin-bottom: var(--space-md);
-      line-height: 1.8;
-    }
-
-    /* Terminal-style code block for fun personality */
     .terminal-block {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-top: var(--space-lg);
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-lg);
     }
     .terminal-header {
-      background: var(--bg-elevated);
-      padding: 0.6rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      background: var(--bg-elevated); padding: 0.6rem 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
     }
-    .terminal-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
     .terminal-dot.red    { background: #FF5F56; }
     .terminal-dot.yellow { background: #FFBD2E; }
     .terminal-dot.green  { background: #27C93F; }
-    .terminal-title {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-left: auto;
-    }
-    .terminal-body {
-      padding: var(--space-md);
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      line-height: 2;
-    }
+    .terminal-title { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-left: auto; }
+    .terminal-body { padding: var(--space-md); font-family: var(--font-mono); font-size: 0.8rem; line-height: 2; }
     .terminal-body .prompt { color: var(--accent-green); }
     .terminal-body .cmd    { color: var(--text-primary); }
     .terminal-body .output { color: var(--text-secondary); }
     .terminal-body .key    { color: var(--accent-primary); }
     .terminal-body .val    { color: var(--accent-secondary); }
+    /* Static $ prompt — no blinking cursor */
+    .terminal-body .static-prompt { color: var(--accent-green); }
 
-    /* Profile image */
-    .about-visual {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-lg);
-    }
-    .profile-img-wrapper {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 0 auto;
-    }
+    .about-visual { display: flex; flex-direction: column; gap: var(--space-lg); align-items: center; }
+    .profile-img-wrapper { position: relative; width: 210px; height: 210px; }
     .profile-img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: var(--radius-lg);
-      border: 2px solid var(--border);
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: var(--radius-lg); border: 2px solid var(--border);
     }
-    /* Cyan ring accent around profile photo */
     .profile-img-wrapper::before {
-      content: '';
-      position: absolute;
-      inset: -4px;
+      content: ''; position: absolute; inset: -4px;
       border-radius: calc(var(--radius-lg) + 4px);
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       z-index: -1;
     }
     .profile-placeholder {
-      /* Used when no photo is available */
-      width: 100%;
-      height: 100%;
-      border-radius: var(--radius-lg);
+      width: 100%; height: 100%; border-radius: var(--radius-lg);
       background: var(--bg-elevated);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: var(--space-sm); color: var(--text-muted);
+      font-family: var(--font-mono); font-size: 0.75rem;
     }
     .profile-placeholder i { font-size: 3rem; color: var(--border); }
 
-    /* Skills progress bars */
-    .skills-grid {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
+    /* Core competency pills — replaces the skill percentage bars */
+    .competency-list {
+      display: flex; flex-wrap: wrap; gap: var(--space-sm);
+      justify-content: center;
     }
-    .skill-item {}
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .skill-name {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
-    .skill-pct {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .competency-pill {
+      font-family: var(--font-mono); font-size: 0.75rem;
       color: var(--accent-primary);
-    }
-    .skill-bar {
-      height: 4px;
-      background: var(--bg-elevated);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .skill-fill {
-      height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      width: 0;
-      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(0,212,255,0.25);
+      background: rgba(0,212,255,0.06);
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
     }
 
-    /* ══════════════════════════════════════════════════════
-       6. TECH STACK SECTION
-       ══════════════════════════════════════════════════════
-       Icon pill grid. Each pill has an icon + label.
-       Hover lifts and glows the pill.
-    ══════════════════════════════════════════════════════ */
-    .tech-categories {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xl);
-    }
+    /* TECH STACK */
+    .tech-categories { display: flex; flex-direction: column; gap: var(--space-xl); }
     .tech-category-title {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: var(--space-md);
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--accent-secondary); text-transform: uppercase;
+      letter-spacing: 0.15em; margin-bottom: var(--space-md);
     }
-    .tech-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-    }
+    .tech-pills { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
     .tech-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      transition: all var(--transition);
-      cursor: default;
+      display: inline-flex; align-items: center; gap: var(--space-sm);
+      background: var(--bg-surface); border: 1px solid var(--border);
+      padding: 0.5rem 1rem; border-radius: 100px;
+      font-family: var(--font-mono); font-size: 0.8rem;
+      color: var(--text-secondary); transition: all var(--transition); cursor: default;
     }
     .tech-pill i { color: var(--accent-primary); font-size: 0.9rem; }
     .tech-pill:hover {
-      border-color: var(--accent-primary);
-      color: var(--text-primary);
-      background: var(--bg-elevated);
-      transform: translateY(-2px);
-      box-shadow: var(--glow-cyan);
+      border-color: var(--accent-primary); color: var(--text-primary);
+      background: var(--bg-elevated); transform: translateY(-2px); box-shadow: var(--glow-cyan);
+    }
+    /* "Learning" badge for upcoming skills */
+    .tech-pill.learning { border-style: dashed; opacity: 0.75; }
+    .tech-pill.learning::after {
+      content: 'soon';
+      font-size: 0.6rem; color: var(--accent-secondary);
+      border: 1px solid var(--accent-secondary);
+      padding: 1px 5px; border-radius: 3px; margin-left: 4px;
     }
 
-    /* ══════════════════════════════════════════════════════
-       7. PROJECTS SECTION
-       ══════════════════════════════════════════════════════
-       Filter tabs + responsive card grid.
-       Cards use a subtle tilt transform on hover.
-    ══════════════════════════════════════════════════════ */
-    .project-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-xl);
-    }
+    /* PROJECTS */
+    .project-filters { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-xl); }
     .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      padding: 0.4rem 1rem;
-      border-radius: 100px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition);
-      letter-spacing: 0.05em;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-secondary); cursor: pointer; transition: all var(--transition);
     }
-    .filter-btn:hover,
-    .filter-btn.active {
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent-primary); color: var(--accent-primary);
       background: rgba(0, 212, 255, 0.08);
     }
-
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       gap: var(--space-lg);
     }
 
-    /* Each project card */
+    /* Project card — no emoji icon header, cleaner layout */
     .project-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); overflow: hidden;
       transition: all var(--transition);
-      display: flex;
-      flex-direction: column;
-      position: relative;
+      display: flex; flex-direction: column; position: relative;
     }
     .project-card::before {
-      /* Glowing top border on hover */
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform var(--transition);
+      transform: scaleX(0); transform-origin: left; transition: transform var(--transition);
     }
     .project-card:hover {
-      border-color: rgba(0, 212, 255, 0.3);
-      transform: translateY(-4px);
+      border-color: rgba(0, 212, 255, 0.3); transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(0,0,0,0.4), var(--glow-cyan);
     }
     .project-card:hover::before { transform: scaleX(1); }
 
-    /* Coloured header strip representing the project domain */
+    /* Card top bar: category label left, GitHub icon right — no emoji */
     .project-header {
-      padding: var(--space-lg);
-      background: var(--bg-elevated);
-      display: flex;
-      align-items: flex-start;
+      padding: 1rem var(--space-lg) 0;
+      display: flex; align-items: center;
       justify-content: space-between;
-      gap: var(--space-md);
     }
-    .project-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-    .project-links {
-      display: flex;
-      gap: var(--space-sm);
-    }
+    .project-links { display: flex; gap: var(--space-sm); }
     .project-link {
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      transition: all var(--transition);
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text-secondary);
+      font-size: 0.95rem; transition: all var(--transition);
     }
-    .project-link:hover {
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-      background: rgba(0, 212, 255, 0.1);
-    }
+    .project-link:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
 
-    .project-body { padding: var(--space-lg); flex: 1; }
-
+    .project-body { padding: var(--space-md) var(--space-lg) var(--space-lg); flex: 1; }
     .project-category {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--accent-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: var(--space-sm);
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--accent-secondary); text-transform: uppercase;
+      letter-spacing: 0.15em; margin-bottom: var(--space-sm);
     }
     .project-title {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-sm);
-      line-height: 1.3;
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: var(--space-sm); line-height: 1.3;
     }
     .project-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--space-md);
+      font-size: 0.9rem; color: var(--text-secondary);
+      line-height: 1.7; margin-bottom: var(--space-md);
     }
-
-    /* Project metric highlights */
-    .project-metrics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
-    }
+    .project-metrics { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-md); }
     .metric-badge {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-family: var(--font-mono); font-size: 0.7rem;
       color: var(--accent-green);
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.2);
-      padding: 2px 8px;
-      border-radius: 4px;
+      padding: 2px 8px; border-radius: 4px;
     }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-xs);
-    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
     .tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      background: var(--bg-deep);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 4px;
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--text-muted); background: var(--bg-deep);
+      border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px;
     }
 
-    /* ══════════════════════════════════════════════════════
-       8. EXPERIENCE SECTION — Vertical Timeline
-       ══════════════════════════════════════════════════════
-       A vertical line with dot markers at each role.
-       The left line is the timeline axis.
-    ══════════════════════════════════════════════════════ */
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-    /* The vertical line */
+    /* EXPERIENCE */
+    .timeline { position: relative; padding-left: 2rem; }
     .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, var(--accent-primary), transparent);
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px; background: linear-gradient(180deg, var(--accent-primary), transparent);
     }
-
-    .timeline-item {
-      position: relative;
-      padding-bottom: var(--space-xl);
-      padding-left: var(--space-lg);
-    }
-    /* Dot on the timeline */
+    .timeline-item { position: relative; padding-bottom: var(--space-xl); padding-left: var(--space-lg); }
     .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -8px;
-      top: 6px;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      background: var(--bg-deep);
-      border: 2px solid var(--accent-primary);
+      content: ''; position: absolute; left: -8px; top: 6px;
+      width: 15px; height: 15px; border-radius: 50%;
+      background: var(--bg-deep); border: 2px solid var(--accent-primary);
       transition: all var(--transition);
     }
-    .timeline-item:hover::before {
-      background: var(--accent-primary);
-      box-shadow: var(--glow-cyan);
-    }
+    .timeline-item:hover::before { background: var(--accent-primary); box-shadow: var(--glow-cyan); }
+    .timeline-date { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-secondary); margin-bottom: var(--space-sm); }
+    .timeline-role { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .timeline-company { font-size: 0.9rem; color: var(--accent-primary); margin-bottom: var(--space-md); }
+    .timeline-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--space-md); }
+    .timeline-achievements { list-style: none; display: flex; flex-direction: column; gap: var(--space-sm); }
+    .timeline-achievements li { font-size: 0.9rem; color: var(--text-secondary); display: flex; gap: var(--space-sm); align-items: flex-start; }
+    .timeline-achievements li::before { content: '→'; color: var(--accent-primary); font-family: var(--font-mono); flex-shrink: 0; margin-top: 1px; }
 
-    .timeline-date {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent-secondary);
-      margin-bottom: var(--space-sm);
-      letter-spacing: 0.05em;
-    }
-    .timeline-role {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .timeline-company {
-      font-size: 0.9rem;
-      color: var(--accent-primary);
-      margin-bottom: var(--space-md);
-    }
-    .timeline-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--space-md);
-    }
-    .timeline-achievements {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-    }
-    .timeline-achievements li {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      display: flex;
-      gap: var(--space-sm);
-      align-items: flex-start;
-    }
-    .timeline-achievements li::before {
-      content: '→';
-      color: var(--accent-primary);
-      font-family: var(--font-mono);
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* ══════════════════════════════════════════════════════
-       9. CONTACT SECTION
-       ══════════════════════════════════════════════════════
-       Centered layout with social links and an email CTA.
-    ══════════════════════════════════════════════════════ */
-    #contact {
-      text-align: center;
-    }
+    /* CONTACT */
+    #contact { text-align: center; }
     .contact-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-2xl) var(--space-xl);
-      max-width: 700px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: var(--space-2xl) var(--space-xl);
+      max-width: 700px; margin: 0 auto; position: relative; overflow: hidden;
     }
-    /* Radial glow behind the contact card */
     .contact-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 212, 255, 0.06), transparent 70%);
+      content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%);
       pointer-events: none;
     }
 
-    .contact-email {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: var(--space-lg) 0;
-      display: block;
-      transition: color var(--transition);
+    /* Contact form */
+    .contact-form { margin-top: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md); text-align: left; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.05em; }
+    .form-group input,
+    .form-group textarea {
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+      color: var(--text-primary); font-family: var(--font-body); font-size: 0.9rem;
+      transition: border-color var(--transition); outline: none; resize: none;
     }
-    .contact-email:hover { color: var(--accent-primary); }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent-primary); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-muted); }
+    .form-divider {
+      display: flex; align-items: center; gap: var(--space-md);
+      color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;
+      margin: var(--space-sm) 0;
+    }
+    .form-divider::before, .form-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
 
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: var(--space-md);
-      margin-top: var(--space-xl);
+    .contact-email {
+      font-family: var(--font-display); font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 600; color: var(--accent-primary);
+      display: inline-block; transition: color var(--transition);
     }
+    .contact-email:hover { color: var(--text-primary); }
+
+    .social-links { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-xl); }
     .social-link {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text-secondary);
-      font-size: 1.2rem;
+      width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 1.1rem;
       transition: all var(--transition);
     }
-    .social-link:hover {
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-      transform: translateY(-3px);
-      box-shadow: var(--glow-cyan);
-    }
+    .social-link:hover { border-color: var(--accent-primary); color: var(--accent-primary); transform: translateY(-3px); box-shadow: var(--glow-cyan); }
 
-    /* ══════════════════════════════════════════════════════
-       10. FOOTER
-    ══════════════════════════════════════════════════════ */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: var(--space-lg) 0;
-      text-align: center;
-    }
-    footer p {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: var(--space-lg) 0; text-align: center; }
+    footer p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
     footer span { color: var(--accent-primary); }
 
-    /* ══════════════════════════════════════════════════════
-       11. RESPONSIVE BREAKPOINTS
-       ══════════════════════════════════════════════════════
-       Mobile-first tweaks. At < 768px (tablets and phones):
-       - Nav links collapse into hamburger menu
-       - Two-column grids become single column
-    ══════════════════════════════════════════════════════ */
-    @media (max-width: 768px) {
-      /* Show hamburger, hide links */
-      .nav-toggle { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
-        background: var(--bg-deep);
-        border-bottom: 1px solid var(--border);
-        flex-direction: column;
-        padding: var(--space-lg);
-        gap: var(--space-md);
-        align-items: flex-start;
-      }
-      .nav-links.open { display: flex; }
-
-      .about-grid { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; }
-
-      .hero-stats { gap: var(--space-md); }
-      .stat-value  { font-size: 1.5rem; }
-
-      .contact-card { padding: var(--space-xl) var(--space-md); }
-    }
-
-    /* ══════════════════════════════════════════════════════
-       12. SCROLL REVEAL ANIMATION
-       ══════════════════════════════════════════════════════
-       Elements start invisible and slide up.
-       JavaScript IntersectionObserver adds .visible class
-       when they enter the viewport.
-    ══════════════════════════════════════════════════════ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    /* Stagger delays for grid children */
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal:nth-child(2) { transition-delay: 0.1s; }
     .reveal:nth-child(3) { transition-delay: 0.2s; }
     .reveal:nth-child(4) { transition-delay: 0.3s; }
 
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 64px; left: 0; right: 0;
+        background: var(--bg-deep); border-bottom: 1px solid var(--border);
+        flex-direction: column; padding: var(--space-lg); gap: var(--space-md); align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: var(--space-md); }
+      .stat-value { font-size: 1.5rem; }
+      .contact-card { padding: var(--space-xl) var(--space-md); }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Accessibility: lets keyboard users skip straight to main content -->
-  <a href="#about" class="skip-link">Skip to content</a>
 
-  <!-- ══════════════════════════════════════════════════════
-       NAVIGATION
-       ── How it works ──────────────────────────────────────
-       Fixed bar with logo on the left and page-anchor links
-       on the right. On mobile the links collapse behind a
-       hamburger button (toggled by JS at the bottom).
-  ══════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION -->
   <nav role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-
-      <!-- LOGO: Replace "YN" with your initials and "Your Name" with your name -->
+      <!-- Clean wordmark — no initials box -->
       <a href="#hero" class="nav-logo" aria-label="Home">
-        <span>YN</span>
-        David Abe
+        David Abe<span class="dot">.</span>
       </a>
-
-      <!-- Mobile hamburger button -->
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-
-      <!-- Desktop nav links — each href="#id" scrolls to that section -->
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#stack">Stack</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#experience">Experience</a></li>
-        <!-- Resume download link — put your PDF in assets/resume.pdf -->
-        <li><a href="assets/resume.pdf" class="btn-nav" target="_blank" rel="noopener">Resume ↗</a></li>
+        <li><a href="assets/resume.pdf" class="btn-nav" target="_blank" rel="noopener">Resume</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- ══════════════════════════════════════════════════════
-       HERO SECTION
-       ── How it works ──────────────────────────────────────
-       Full-height opening section. Behind the text content
-       sits a <canvas> element that renders an animated node-
-       graph representing a data pipeline (drawn by JS below).
-       A CSS gradient sits between the canvas and the text so
-       the text is always readable.
-
-       CUSTOMISE:
-       • Replace "Your Name" in hero-name
-       • Update the tagline sentence
-       • Update the 3 stat numbers
-       • Update the two CTA button hrefs
-  ══════════════════════════════════════════════════════ -->
+  <!-- HERO -->
   <section id="hero" aria-label="Introduction">
-    <!-- The animated pipeline background canvas -->
     <canvas id="pipeline-canvas" aria-hidden="true"></canvas>
-
     <div class="hero-content">
 
-      <!-- Blinking cursor label -->
-      <p class="hero-eyebrow">
-        Cloud & Analytics Data Engineer
-        <span class="cursor" aria-hidden="true"></span>
-      </p>
+      <!-- Clean role label, no blinking cursor -->
+      <p class="hero-eyebrow">Cloud &amp; Analytics Data Engineer</p>
 
-      <!-- Your name with a gradient on your role descriptor -->
       <h1 class="hero-name">
         Hi, I'm<br>
         <span class="highlight">David Abe</span>
       </h1>
 
-      <!-- One-sentence value proposition — keep it tight -->
+      <!--
+        Hero tagline updated:
+        - ELT (not ETL) — correct for dbt/BigQuery workflow
+        - Removed "real-time" since that's your next project goal, not current
+        - No em dashes
+      -->
       <p class="hero-tagline">
-        I architect <strong style="color:var(--text-primary)">scalable data platforms</strong>,
-        build real-time ETL pipelines, and turn raw data into
-        business intelligence that drives decisions.
+        I design <strong>scalable data platforms</strong> on the cloud,
+        build robust ELT pipelines from source to warehouse,
+        and translate raw data into analytics that drive real decisions.
       </p>
 
-      <!-- Key stats — update numbers to match your reality -->
+      <!--
+        Stats: "6+" not "6" — the + makes it open-ended so adding projects
+        doesn't make the number look wrong. Update data-count as you grow.
+      -->
       <div class="hero-stats" role="list">
         <div class="stat-item" role="listitem">
-          <span class="stat-value" data-count="6">0</span>
+          <span class="stat-value" id="stat-projects">6+</span>
           <span class="stat-label">Projects Shipped</span>
         </div>
         <div class="stat-item" role="listitem">
-          <span class="stat-value" data-count="3">0</span>
+          <span class="stat-value" id="stat-exp">3+</span>
           <span class="stat-label">Years Experience</span>
         </div>
         <div class="stat-item" role="listitem">
-          <span class="stat-value" data-count="15">0</span>
-          <span class="stat-label">Tools & Technologies</span>
+          <span class="stat-value" id="stat-tools">10+</span>
+          <span class="stat-label">Tools &amp; Technologies</span>
         </div>
       </div>
 
-      <!-- CTA buttons -->
       <div class="hero-cta">
-        <!-- Primary: scrolls to Projects section -->
         <a href="#projects" class="btn-primary">
           <i class="fas fa-folder-open" aria-hidden="true"></i>
           View Projects
         </a>
-        <!-- Secondary: scrolls to Contact section -->
         <a href="#contact" class="btn-outline">
-          <i class="fas fa-paper-plane" aria-hidden="true"></i>
           Get in Touch
         </a>
       </div>
     </div>
 
-    <!-- Animated down-arrow so users know to scroll -->
-    <div class="scroll-indicator" aria-hidden="true">
-      <span>scroll</span>
-      <div class="arrow"></div>
-    </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       ABOUT SECTION
-       ── How it works ──────────────────────────────────────
-       Two columns: bio text + terminal widget on the left,
-       profile photo + skill bars on the right.
-
-       CUSTOMISE:
-       • Replace bio paragraphs with your own story
-       • Add your photo to assets/images/profile.jpg and
-         swap the placeholder <div> for an <img> tag
-       • Update the skill names and percentages
-  ══════════════════════════════════════════════════════ -->
+  <!-- ABOUT -->
   <section id="about" class="section" aria-labelledby="about-heading">
     <div class="container">
-      <p class="section-label">01 — About</p>
+      <!-- No number prefix on section labels -->
+      <p class="section-label">About</p>
       <h2 class="section-title" id="about-heading">Building data infrastructure<br>that scales.</h2>
 
       <div class="about-grid">
 
-        <!-- Left column: bio + terminal -->
         <div class="about-bio reveal">
+          <!--
+            Bio rewritten:
+            - No em dashes
+            - No "whether it's... or..." construction (common AI tell)
+            - GCP-primary, AWS-secondary (accurate to your actual skills)
+            - ELT not ETL
+            - Honest, direct voice
+          -->
           <p>
-            I'm a <strong style="color:var(--text-primary)">Cloud Data Engineer</strong> and
-            <strong style="color:var(--text-primary)">Analytics Engineer</strong> with a passion
-            for designing robust, scalable data platforms on the cloud. I specialise in building
-            end-to-end pipelines — from ingestion through transformation to visualisation — using
-            modern tooling like dbt, Apache Kafka, Spark, and BigQuery.
+            I'm a Cloud Data Engineer and Analytics Engineer who got into this field
+            wanting to understand how data moves: how it's pulled from source systems,
+            stored, transformed, and made accessible to the teams that need it.
+            That curiosity is still what drives my work today.
           </p>
           <p>
-            My work spans real-time streaming architectures, data warehouse modelling,
-            and BI layer development. I enjoy the full stack of data: infrastructure,
-            pipelines, models, and dashboards. Whether it's designing a lakehouse schema
-            or optimising a slow dbt model, I care deeply about data quality and
-            engineering best practices.
-          </p>
-          <p>
-            <!-- Add a fun fact or personal touch here -->
-            When I'm not engineering data systems, you'll find me contributing to open-source
-            data projects and exploring new cloud-native tools.
+            My experience covers the full data stack on GCP: ingesting raw data from
+            source systems into Cloud Storage, transforming it inside BigQuery using dbt,
+            and surfacing it through Power BI dashboards that business teams can act on.
+            I also work with Apache Kafka for real-time streaming pipelines, bringing
+            event-driven data into the same warehouse layer. I care about data quality
+            and clean modelling as much as the pipeline itself. A well-tested dbt model
+            matters as much as the code that feeds it.
           </p>
 
-          <!--
-            TERMINAL BLOCK
-            This is a fun styled code snippet showing your "data.json" profile.
-            It adds personality and fits the data engineering aesthetic.
-            Update the values to match your real info.
-          -->
+          <!-- Terminal block — static $ prompt, no blinking cursor -->
           <div class="terminal-block">
             <div class="terminal-header">
               <div class="terminal-dot red"></div>
               <div class="terminal-dot yellow"></div>
               <div class="terminal-dot green"></div>
-              <span class="terminal-title">engineer.json</span>
+              <span class="terminal-title">profile.json</span>
             </div>
             <div class="terminal-body">
-              <div><span class="prompt">$ </span><span class="cmd">cat engineer.json</span></div>
+              <div><span class="static-prompt">$</span> <span class="cmd">cat profile.json</span></div>
               <div class="output">{</div>
               <div class="output">&nbsp;&nbsp;<span class="key">"name"</span>: <span class="val">"David Abe"</span>,</div>
-              <div class="output">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="val">"Cloud & Analytics Data Engineer"</span>,</div>
-              <div class="output">&nbsp;&nbsp;<span class="key">"location"</span>: <span class="val">"Lagos, Nigeria 🇳🇬"</span>,</div>
-              <div class="output">&nbsp;&nbsp;<span class="key">"cloud"</span>: [<span class="val">"GCP"</span>, <span class="val">"AWS"</span>, <span class="val">"Azure"</span>],</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="val">"Cloud &amp; Analytics Data Engineer"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"primary_cloud"</span>: <span class="val">"GCP"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"stack"</span>: [<span class="val">"BigQuery"</span>, <span class="val">"dbt"</span>, <span class="val">"Airflow"</span>, <span class="val">"Power BI"</span>],</div>
               <div class="output">&nbsp;&nbsp;<span class="key">"open_to"</span>: <span class="val">"Remote Opportunities"</span>,</div>
               <div class="output">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="val" style="color:var(--accent-green)">"available"</span></div>
               <div class="output">}</div>
-              <div><span class="prompt">$ </span><span class="cmd">_</span><span class="cursor" style="width:8px;height:14px;"></span></div>
+              <div><span class="static-prompt">$</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Right column: photo + skill bars -->
         <div class="about-visual reveal">
-
-          <!-- PROFILE PHOTO
-               Option A (no photo yet): keep the placeholder div below.
-               Option B (have a photo): replace the entire .profile-placeholder
-               div with: <img src="assets/images/profile.jpg" alt="Your Name" />
-               inside the .profile-img-wrapper div.
+          <!--
+            Profile photo placeholder.
+            To add your photo: replace the .profile-placeholder div below with:
+            <img src="assets/images/profile.jpg" alt="David Abe" />
           -->
           <div class="profile-img-wrapper">
             <div class="profile-placeholder">
@@ -1316,478 +661,320 @@
           </div>
 
           <!--
-            SKILL BARS
-            Each bar animates in when the section scrolls into view.
-            data-pct="85" controls how far the bar fills (85 = 85%).
-            Adjust the skill names and percentages to match your real skills.
+            Core competencies as pills — replaces the skill percentage bars.
+            Percentages on a portfolio are subjective and often questioned by
+            technical interviewers. Showing your actual tools is more honest
+            and harder to challenge.
           -->
-          <div class="skills-grid" aria-label="Core skill levels">
+          <div class="competency-list" aria-label="Core competencies">
+            <span class="competency-pill">ELT Pipelines</span>
+            <span class="competency-pill">Data Modelling</span>
+            <span class="competency-pill">BigQuery</span>
+            <span class="competency-pill">dbt Core</span>
+            <span class="competency-pill">Apache Airflow</span>
+            <span class="competency-pill">Python</span>
+            <span class="competency-pill">Power BI</span>
+            <span class="competency-pill">GCP</span>
+            <span class="competency-pill">GitHub Actions</span>
+            <span class="competency-pill">Data Quality</span>
+            <span class="competency-pill">SQL</span>
+            <span class="competency-pill">Cloud Storage</span>
+          </div>
+        </div>
 
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">Data Pipeline Engineering</span>
-                <span class="skill-pct">90%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
-            </div>
-
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">Cloud Architecture (GCP / AWS)</span>
-                <span class="skill-pct">85%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
-            </div>
-
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">dbt / SQL Modelling</span>
-                <span class="skill-pct">88%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
-            </div>
-
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">Apache Spark / Kafka</span>
-                <span class="skill-pct">80%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
-            </div>
-
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">Python (PySpark, Pandas)</span>
-                <span class="skill-pct">87%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="87"></div></div>
-            </div>
-
-            <div class="skill-item">
-              <div class="skill-header">
-                <span class="skill-name">BI / Dashboard (Looker, Power BI)</span>
-                <span class="skill-pct">82%</span>
-              </div>
-              <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
-            </div>
-
-          </div><!-- /.skills-grid -->
-        </div><!-- /.about-visual -->
-
-      </div><!-- /.about-grid -->
-    </div><!-- /.container -->
+      </div>
+    </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       TECH STACK SECTION
-       ── How it works ──────────────────────────────────────
-       Pill badges grouped by category.
-       Font Awesome icons are used inside each pill.
-
-       CUSTOMISE:
-       • Add / remove pills in each category
-       • To find an icon: search https://fontawesome.com/icons
-       • To add a new category: copy a <div class="tech-category"> block
-  ══════════════════════════════════════════════════════ -->
+  <!-- TECH STACK -->
   <section id="stack" class="section" aria-labelledby="stack-heading">
     <div class="container">
-      <p class="section-label">02 — Tech Stack</p>
+      <p class="section-label">Tech Stack</p>
       <h2 class="section-title" id="stack-heading">Tools I work with.</h2>
       <p class="section-subtitle">
-        A curated set of technologies I rely on for building production-grade
-        data platforms, pipelines, and analytics layers.
+        GCP is my primary cloud. Everything listed here reflects tools I have
+        used in real projects. Skills marked "soon" are part of my active
+        learning roadmap.
       </p>
 
       <div class="tech-categories">
 
-        <!-- ── Cloud Platforms ── -->
+        <!-- Cloud -->
         <div>
-          <p class="tech-category-title">☁ Cloud Platforms</p>
+          <p class="tech-category-title">Cloud Platforms</p>
           <div class="tech-pills" role="list">
             <span class="tech-pill" role="listitem"><i class="fab fa-google"></i> Google Cloud (GCP)</span>
             <span class="tech-pill" role="listitem"><i class="fab fa-aws"></i> Amazon Web Services</span>
-            <span class="tech-pill" role="listitem"><i class="fab fa-microsoft"></i> Microsoft Azure</span>
           </div>
         </div>
 
-        <!-- ── Data Engineering ── -->
+        <!-- Data Engineering -->
         <div>
-          <p class="tech-category-title">⚙ Data Engineering & Orchestration</p>
+          <p class="tech-category-title">Data Engineering &amp; Orchestration</p>
           <div class="tech-pills" role="list">
             <span class="tech-pill" role="listitem"><i class="fas fa-wind"></i> Apache Airflow</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-bolt"></i> Apache Spark</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-stream"></i> Apache Kafka</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-cube"></i> dbt (Core & Cloud)</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-layer-group"></i> Delta Lake</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-tachometer-alt"></i> Prefect</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-cube"></i> dbt Core</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-stream"></i> Apache Kafka <span style="font-size:0.65rem;color:var(--accent-secondary);margin-left:4px;border:1px solid var(--accent-secondary);padding:1px 5px;border-radius:3px;">soon</span></span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-python"></i> Python</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-code-branch"></i> GitHub Actions (CI/CD)</span>
           </div>
         </div>
 
-        <!-- ── Data Warehouses & Storage ── -->
+        <!-- Warehouses & Storage -->
         <div>
-          <p class="tech-category-title">🗄 Data Warehouses & Storage</p>
+          <p class="tech-category-title">Data Warehouses &amp; Storage</p>
           <div class="tech-pills" role="list">
             <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> BigQuery</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> Snowflake</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> Redshift</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> DuckDB <span style="font-size:0.65rem;color:var(--accent-secondary);margin-left:4px;border:1px solid var(--accent-secondary);padding:1px 5px;border-radius:3px;">soon</span></span>
             <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-database"></i> Amazon Redshift</span>
             <span class="tech-pill" role="listitem"><i class="fas fa-archive"></i> Cloud Storage / S3</span>
           </div>
         </div>
 
-        <!-- ── Analytics & BI ── -->
+        <!-- Analytics & BI -->
         <div>
-          <p class="tech-category-title">📊 Analytics & BI</p>
+          <p class="tech-category-title">Analytics &amp; BI</p>
           <div class="tech-pills" role="list">
-            <span class="tech-pill" role="listitem"><i class="fas fa-chart-bar"></i> Looker / Looker Studio</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-chart-pie"></i> Power BI</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-table"></i> Tableau</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-microscope"></i> Metabase</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-chart-bar"></i> Power BI</span>
+            <span class="tech-pill" role="listitem"><i class="fas fa-chart-pie"></i> Looker Studio</span>
           </div>
         </div>
 
-        <!-- ── Languages & IaC ── -->
+        <!-- Languages & Infrastructure -->
         <div>
-          <p class="tech-category-title">💻 Languages & Infrastructure</p>
+          <p class="tech-category-title">Languages &amp; Infrastructure</p>
           <div class="tech-pills" role="list">
             <span class="tech-pill" role="listitem"><i class="fab fa-python"></i> Python</span>
             <span class="tech-pill" role="listitem"><i class="fas fa-code"></i> SQL</span>
-            <span class="tech-pill" role="listitem"><i class="fab fa-docker"></i> Docker</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-cubes"></i> Terraform</span>
             <span class="tech-pill" role="listitem"><i class="fab fa-git-alt"></i> Git / GitHub</span>
-            <span class="tech-pill" role="listitem"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
+            <span class="tech-pill" role="listitem"><i class="fab fa-docker"></i> Docker</span>
           </div>
         </div>
 
-      </div><!-- /.tech-categories -->
+      </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       PROJECTS SECTION
-       ── How it works ──────────────────────────────────────
-       Filter buttons control which cards are visible using JS.
-       Each card has a data-category attribute that the filter
-       button logic matches against.
-
-       CUSTOMISE:
-       • Update each .project-card with your real project info
-       • Add more cards by copying the template block
-       • Update data-category to match your filter buttons
-       • Update the GitHub / Live demo hrefs
-       • Pick an icon + bg colour that fits each project domain
-  ══════════════════════════════════════════════════════ -->
+  <!-- PROJECTS -->
   <section id="projects" class="section" aria-labelledby="projects-heading">
     <div class="container">
-      <p class="section-label">03 — Projects</p>
+      <p class="section-label">Projects</p>
       <h2 class="section-title" id="projects-heading">Things I've built.</h2>
       <p class="section-subtitle">
-        A selection of data engineering and analytics projects — each one a chance
-        to solve a real problem at scale.
+        Each card links directly to the GitHub repository and README.
+        Click the GitHub icon on any card to view the full code and documentation.
       </p>
 
-      <!-- Filter buttons — add new buttons to match new categories you define -->
-      <div class="project-filters" role="group" aria-label="Filter projects by category">
+      <div class="project-filters" role="group" aria-label="Filter projects">
         <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="pipeline">Data Pipelines</button>
+        <button class="filter-btn" data-filter="pipeline">ELT Pipelines</button>
         <button class="filter-btn" data-filter="analytics">Analytics</button>
         <button class="filter-btn" data-filter="cloud">Cloud Infra</button>
-        <button class="filter-btn" data-filter="streaming">Streaming</button>
       </div>
 
       <div class="projects-grid" id="projects-grid">
 
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 1 — Urban Mobility Data Platform
-             (Your featured / anchor project)
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="pipeline streaming"
-                 aria-labelledby="proj1-title">
+        <!--
+          PROJECT CARDS
+          No emoji icons. GitHub icon links directly to the repo README.
+          No "live demo" link — removed since most data engineering projects
+          don't have a hosted demo. Only add it back if you have one.
+
+          How to add a new project: copy any card block below,
+          update data-category, title, description, metrics, tags, and GitHub href.
+        -->
+
+        <!-- Card 1 -->
+        <article class="project-card reveal" data-category="pipeline analytics" aria-labelledby="proj1-title">
           <div class="project-header">
-            <div class="project-icon" style="background:rgba(0,212,255,0.12); color:var(--accent-primary);">
-              🚇
-            </div>
+            <p class="project-category">ELT Pipeline · Analytics</p>
             <div class="project-links">
-              <!-- Replace href with your real GitHub URL -->
               <a href="https://github.com/DavidAbeAnalytics/urban-mobility-platform"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
                 <i class="fab fa-github" aria-hidden="true"></i>
-                <span class="sr-only">GitHub</span>
-              </a>
-              <!-- Add a live demo link if you have one; otherwise remove this -->
-              <a href="#" class="project-link" title="View live demo" target="_blank" rel="noopener">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                <span class="sr-only">Live Demo</span>
               </a>
             </div>
           </div>
-
           <div class="project-body">
-            <p class="project-category">Data Pipeline · Streaming</p>
             <h3 class="project-title" id="proj1-title">Urban Mobility Data Platform</h3>
             <p class="project-desc">
-              End-to-end streaming data platform ingesting real-time transit data
-              from 50+ city feeds. Built on Apache Kafka + Spark Structured Streaming
-              with a dbt-modelled BigQuery warehouse and Looker Studio dashboards.
+              End-to-end data platform analysing NYC yellow taxi trips and how
+              subway disruptions and weather affect taxi demand. Built on Python
+              ingestion, GCS, BigQuery, dbt 1.9, and Power BI. Deployed with
+              GitHub Actions CI/CD.
             </p>
-            <!-- Quantified impact metrics — the most important section for impressing recruiters -->
             <div class="project-metrics">
-              <span class="metric-badge">↑ 10M events/day</span>
-              <span class="metric-badge">↓ 40% query cost</span>
-              <span class="metric-badge">99.9% uptime</span>
+              <span class="metric-badge">BigQuery + dbt</span>
+              <span class="metric-badge">GitHub Actions CI/CD</span>
+              <span class="metric-badge">Power BI dashboard</span>
             </div>
-            <!-- Tech tags — keep concise, 4-6 tags max per card -->
             <div class="project-tags">
-              <span class="tag">Kafka</span>
-              <span class="tag">Spark</span>
+              <span class="tag">Python</span>
               <span class="tag">BigQuery</span>
               <span class="tag">dbt</span>
+              <span class="tag">GCS</span>
               <span class="tag">Airflow</span>
-              <span class="tag">GCP</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 2 — E-Commerce Analytics Warehouse
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="analytics pipeline"
-                 aria-labelledby="proj2-title">
-          <div class="project-header">
-            <div class="project-icon" style="background:rgba(245,158,11,0.12); color:var(--accent-secondary);">
-              🛒
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/ecommerce-warehouse"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
-                <i class="fab fa-github" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-          <div class="project-body">
-            <p class="project-category">Analytics · Data Warehouse</p>
-            <h3 class="project-title" id="proj2-title">E-Commerce Analytics Warehouse</h3>
-            <p class="project-desc">
-              Designed a star-schema Snowflake warehouse for a retail client,
-              with dbt models covering orders, inventory, and customer lifetime value.
-              Reduced reporting query time from 45s to under 2s.
-            </p>
-            <div class="project-metrics">
-              <span class="metric-badge">↓ 95% query time</span>
-              <span class="metric-badge">200+ dbt models</span>
-            </div>
-            <div class="project-tags">
-              <span class="tag">Snowflake</span>
-              <span class="tag">dbt</span>
-              <span class="tag">Python</span>
               <span class="tag">Power BI</span>
-              <span class="tag">AWS S3</span>
             </div>
           </div>
         </article>
 
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 3 — Real-Time Fraud Detection Pipeline
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="streaming pipeline"
-                 aria-labelledby="proj3-title">
+        <!-- Card 2 -->
+        <article class="project-card reveal" data-category="pipeline cloud" aria-labelledby="proj2-title">
           <div class="project-header">
-            <div class="project-icon" style="background:rgba(16,185,129,0.12); color:var(--accent-green);">
-              🔒
-            </div>
+            <p class="project-category">ELT Pipeline · Cloud Infra</p>
             <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/fraud-detection-pipeline"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
+              <a href="https://github.com/DavidAbeAnalytics/financial-stock-pipeline"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
                 <i class="fab fa-github" aria-hidden="true"></i>
               </a>
             </div>
           </div>
           <div class="project-body">
-            <p class="project-category">Streaming · ML Engineering</p>
-            <h3 class="project-title" id="proj3-title">Real-Time Fraud Detection Pipeline</h3>
+            <h3 class="project-title" id="proj2-title">Financial Stock Market Data Pipeline</h3>
             <p class="project-desc">
-              Built a sub-100ms Kafka Streams pipeline that scores financial
-              transactions with a trained XGBoost model deployed on Vertex AI.
-              Processes 5M transactions daily with a 0.3% false-positive rate.
-            </p>
-            <div class="project-metrics">
-              <span class="metric-badge">&lt;100ms latency</span>
-              <span class="metric-badge">5M txn/day</span>
-              <span class="metric-badge">0.3% FPR</span>
-            </div>
-            <div class="project-tags">
-              <span class="tag">Kafka</span>
-              <span class="tag">Vertex AI</span>
-              <span class="tag">XGBoost</span>
-              <span class="tag">GCP</span>
-              <span class="tag">Python</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 4 — Cloud Data Lakehouse (AWS)
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="cloud pipeline"
-                 aria-labelledby="proj4-title">
-          <div class="project-header">
-            <div class="project-icon" style="background:rgba(99,102,241,0.12); color:#818CF8;">
-              🏞
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/aws-lakehouse"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
-                <i class="fab fa-github" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-          <div class="project-body">
-            <p class="project-category">Cloud Infra · Lakehouse</p>
-            <h3 class="project-title" id="proj4-title">AWS Data Lakehouse Architecture</h3>
-            <p class="project-desc">
-              Designed and deployed a Delta Lake-based lakehouse on AWS using
-              Glue, S3, Athena, and Terraform. Implemented bronze / silver / gold
-              medallion architecture with automated data quality checks.
+              AWS-native pipeline using Airflow, Lambda, and S3 in a Medallion
+              architecture. Analyses five stock symbols with technical indicators.
+              Loads processed data into Redshift for reporting.
             </p>
             <div class="project-metrics">
               <span class="metric-badge">Medallion Architecture</span>
-              <span class="metric-badge">IaC (Terraform)</span>
+              <span class="metric-badge">5 stock symbols</span>
             </div>
             <div class="project-tags">
-              <span class="tag">Delta Lake</span>
-              <span class="tag">AWS Glue</span>
-              <span class="tag">Terraform</span>
-              <span class="tag">Athena</span>
+              <span class="tag">Airflow</span>
+              <span class="tag">AWS Lambda</span>
               <span class="tag">S3</span>
+              <span class="tag">Redshift</span>
+              <span class="tag">Python</span>
             </div>
           </div>
         </article>
 
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 5 — Customer 360 Analytics
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="analytics"
-                 aria-labelledby="proj5-title">
+        <!-- Card 3 -->
+        <article class="project-card reveal" data-category="analytics pipeline" aria-labelledby="proj3-title">
           <div class="project-header">
-            <div class="project-icon" style="background:rgba(236,72,153,0.12); color:#F472B6;">
-              👤
-            </div>
+            <p class="project-category">Analytics Engineering</p>
             <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/customer360"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
+              <a href="https://github.com/DavidAbeAnalytics/retail-analytics-platform"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
                 <i class="fab fa-github" aria-hidden="true"></i>
               </a>
             </div>
           </div>
           <div class="project-body">
-            <p class="project-category">Analytics · Data Modelling</p>
-            <h3 class="project-title" id="proj5-title">Customer 360 Analytics Platform</h3>
+            <h3 class="project-title" id="proj3-title">Modern Retail Analytics Platform</h3>
             <p class="project-desc">
-              Built a unified customer view by joining CRM, web analytics, and
-              purchase data in BigQuery. Delivered segmentation models and
-              dashboards that drove a 22% lift in targeted campaign conversion.
+              BigQuery, dbt, and Power BI retail BI implementation. Covers
+              product performance, customer behaviour, and sales trends.
+              Modelled using staging, intermediate, and mart layers.
             </p>
             <div class="project-metrics">
-              <span class="metric-badge">+22% conversion lift</span>
-              <span class="metric-badge">12 data sources</span>
+              <span class="metric-badge">Star schema design</span>
+              <span class="metric-badge">dbt mart layers</span>
             </div>
             <div class="project-tags">
               <span class="tag">BigQuery</span>
               <span class="tag">dbt</span>
-              <span class="tag">Looker</span>
-              <span class="tag">Python</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">SQL</span>
             </div>
           </div>
         </article>
 
-        <!-- ────────────────────────────────────────────────
-             PROJECT CARD 6 — Data Quality Framework
-        ──────────────────────────────────────────────────── -->
-        <article class="project-card reveal" data-category="pipeline analytics"
-                 aria-labelledby="proj6-title">
+        <!-- Card 4 — Streaming project (coming soon) -->
+        <article class="project-card reveal" data-category="pipeline" aria-labelledby="proj4-title">
           <div class="project-header">
-            <div class="project-icon" style="background:rgba(251,191,36,0.12); color:#FCD34D;">
-              ✅
-            </div>
+            <p class="project-category">Streaming Pipeline · In Progress</p>
             <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/data-quality-framework"
-                 class="project-link" title="View source code" target="_blank" rel="noopener">
+              <a href="https://github.com/DavidAbeAnalytics"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
                 <i class="fab fa-github" aria-hidden="true"></i>
               </a>
             </div>
           </div>
           <div class="project-body">
-            <p class="project-category">Data Quality · Observability</p>
-            <h3 class="project-title" id="proj6-title">Automated Data Quality Framework</h3>
+            <h3 class="project-title" id="proj4-title">Real-Time Streaming Pipeline</h3>
             <p class="project-desc">
-              Open-source framework combining dbt tests, Great Expectations, and
-              custom Python checks. Deployed across 3 production warehouses.
-              Reduced data incidents by 70% in the first quarter.
+              Streaming data pipeline using Apache Kafka, Python (Faker for
+              data generation), dbt Core, and DuckDB. Built on free-tier
+              services to demonstrate real-time ingestion and transformation
+              without cloud spend.
             </p>
             <div class="project-metrics">
-              <span class="metric-badge">↓ 70% incidents</span>
-              <span class="metric-badge">3 warehouses</span>
+              <span class="metric-badge" style="color:var(--accent-secondary);background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.2);">Coming soon</span>
             </div>
             <div class="project-tags">
-              <span class="tag">dbt Tests</span>
-              <span class="tag">Great Expectations</span>
+              <span class="tag">Kafka</span>
               <span class="tag">Python</span>
-              <span class="tag">Slack Alerts</span>
+              <span class="tag">dbt Core</span>
+              <span class="tag">DuckDB</span>
             </div>
           </div>
         </article>
 
-        <!--
-          ══ ADD MORE PROJECTS HERE ══
-          Copy and paste the block below for each additional project.
-          Update all the content (icon, title, description, metrics, tags, links).
-
-          <article class="project-card reveal" data-category="pipeline"
-                   aria-labelledby="proj7-title">
-            <div class="project-header">
-              <div class="project-icon" style="background:rgba(0,212,255,0.12); color:var(--accent-primary);">
-                📦
-              </div>
-              <div class="project-links">
-                <a href="YOUR_GITHUB_URL" class="project-link" target="_blank" rel="noopener">
-                  <i class="fab fa-github"></i>
-                </a>
-              </div>
+        <!-- Cards 5 & 6 — update with your other real projects -->
+        <article class="project-card reveal" data-category="analytics" aria-labelledby="proj5-title">
+          <div class="project-header">
+            <p class="project-category">Analytics Engineering</p>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
             </div>
-            <div class="project-body">
-              <p class="project-category">Category Label</p>
-              <h3 class="project-title" id="proj7-title">Project Title</h3>
-              <p class="project-desc">Your project description here.</p>
-              <div class="project-metrics">
-                <span class="metric-badge">Key metric</span>
-              </div>
-              <div class="project-tags">
-                <span class="tag">Tag 1</span>
-                <span class="tag">Tag 2</span>
-              </div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title" id="proj5-title">Project Five Title</h3>
+            <p class="project-desc">
+              Update this card with your real project. Describe the business
+              problem, the tools used, and what the output was.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">Key metric here</span>
             </div>
-          </article>
-        -->
+            <div class="project-tags">
+              <span class="tag">Tool 1</span>
+              <span class="tag">Tool 2</span>
+            </div>
+          </div>
+        </article>
 
-      </div><!-- /#projects-grid -->
+        <article class="project-card reveal" data-category="cloud" aria-labelledby="proj6-title">
+          <div class="project-header">
+            <p class="project-category">Cloud Infra</p>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title" id="proj6-title">Project Six Title</h3>
+            <p class="project-desc">
+              Update this card with your real project. Describe the business
+              problem, the tools used, and what the output was.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">Key metric here</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Tool 1</span>
+              <span class="tag">Tool 2</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       EXPERIENCE SECTION — Timeline
-       ── How it works ──────────────────────────────────────
-       Vertical timeline with one .timeline-item per role.
-       A CSS ::before pseudo-element creates the vertical line
-       and the dot marker.
-
-       CUSTOMISE:
-       • Replace dates, roles, companies, descriptions
-       • Add bullet points for key achievements (use <li> in ul.timeline-achievements)
-       • Add more .timeline-item blocks for additional roles
-  ══════════════════════════════════════════════════════ -->
+  <!-- EXPERIENCE -->
   <section id="experience" class="section" aria-labelledby="exp-heading">
     <div class="container">
-      <p class="section-label">04 — Experience</p>
+      <p class="section-label">Experience</p>
       <h2 class="section-title" id="exp-heading">Where I've worked.</h2>
       <p class="section-subtitle">
         A track record of delivering data infrastructure and analytics
@@ -1795,128 +982,107 @@
       </p>
 
       <div class="timeline">
-
-        <!-- ── Role 1 (Most Recent) ── -->
         <div class="timeline-item reveal">
           <p class="timeline-date">Jan 2023 — Present</p>
           <h3 class="timeline-role">Senior Data Engineer</h3>
           <p class="timeline-company">Company Name · Full-time · Remote</p>
           <p class="timeline-desc">
-            Lead the data infrastructure team responsible for ingestion, transformation,
-            and serving layers for 15+ internal product teams.
+            Update this with your real role description. Focus on what you owned,
+            not just what you did.
           </p>
           <ul class="timeline-achievements">
-            <li>Architected a real-time event streaming platform on GCP handling 10M+ events/day.</li>
-            <li>Reduced dbt model run time by 60% through incremental materialisation and partitioning strategies.</li>
-            <li>Mentored 3 junior engineers on data modelling and pipeline best practices.</li>
+            <li>Replace this with a real, quantified achievement.</li>
+            <li>Replace this with a real, quantified achievement.</li>
+            <li>Replace this with a real, quantified achievement.</li>
           </ul>
         </div>
 
-        <!-- ── Role 2 ── -->
         <div class="timeline-item reveal">
           <p class="timeline-date">Mar 2021 — Dec 2022</p>
           <h3 class="timeline-role">Analytics Engineer</h3>
           <p class="timeline-company">Company Name · Full-time · Hybrid</p>
           <p class="timeline-desc">
-            Owned the analytics layer (dbt + Looker) for a fintech platform,
-            translating raw transactional data into reliable, self-serve metrics.
+            Update this with your real role description.
           </p>
           <ul class="timeline-achievements">
-            <li>Built a customer 360 data model joining 12 disparate data sources into a single Snowflake warehouse.</li>
-            <li>Delivered dashboards used by 200+ business stakeholders weekly.</li>
-            <li>Introduced dbt testing framework that caught 70% more data quality issues before production.</li>
+            <li>Replace this with a real, quantified achievement.</li>
+            <li>Replace this with a real, quantified achievement.</li>
           </ul>
         </div>
-
-        <!-- ── Role 3 ── -->
-        <div class="timeline-item reveal">
-          <p class="timeline-date">Jun 2020 — Feb 2021</p>
-          <h3 class="timeline-role">Data Engineer (Contract)</h3>
-          <p class="timeline-company">Company Name · Contract · Remote</p>
-          <p class="timeline-desc">
-            Migrated on-premise ETL processes to cloud-native pipelines on AWS,
-            improving reliability and reducing infrastructure costs.
-          </p>
-          <ul class="timeline-achievements">
-            <li>Migrated 20+ legacy SSIS packages to Apache Airflow DAGs on AWS MWAA.</li>
-            <li>Reduced monthly cloud infrastructure costs by 35% through right-sizing and spot instance strategy.</li>
-          </ul>
-        </div>
-
-        <!--
-          ══ ADD MORE ROLES HERE ══
-          Copy and paste the block below.
-
-          <div class="timeline-item reveal">
-            <p class="timeline-date">Month Year — Month Year</p>
-            <h3 class="timeline-role">Role Title</h3>
-            <p class="timeline-company">Company Name · Type · Location</p>
-            <p class="timeline-desc">Short summary of what you did.</p>
-            <ul class="timeline-achievements">
-              <li>Achievement with measurable impact.</li>
-              <li>Another achievement.</li>
-            </ul>
-          </div>
-        -->
-
-      </div><!-- /.timeline -->
+      </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       CONTACT SECTION
-       ── How it works ──────────────────────────────────────
-       Centered card with a mailto link and social icon grid.
-
-       CUSTOMISE:
-       • Replace the email address
-       • Update all social links (GitHub, LinkedIn, Twitter/X)
-       • Remove any platforms you don't use
-  ══════════════════════════════════════════════════════ -->
+  <!-- CONTACT -->
   <section id="contact" class="section" aria-labelledby="contact-heading">
     <div class="container">
-      <p class="section-label" style="justify-content:center;">05 — Contact</p>
+      <p class="section-label" style="justify-content:center;">Contact</p>
       <h2 class="section-title" id="contact-heading" style="text-align:center;">
         Let's build something together.
       </h2>
 
       <div class="contact-card reveal">
-        <p style="color:var(--text-secondary); max-width:500px; margin:0 auto;">
-          I'm open to data engineering roles, freelance projects, and collaborations.
-          Whether you have a project in mind or just want to connect — my inbox is open.
+        <p style="color:var(--text-secondary); max-width:480px; margin:0 auto; font-size:0.95rem;">
+          Open to data engineering roles, freelance projects, and collaborations.
+          Fill in the form below or reach me directly by email.
         </p>
 
-        <!-- Replace with your real email address -->
+        <!--
+          FORMSPREE CONTACT FORM
+          =====================
+          HOW TO ACTIVATE (5 minutes, one-time):
+          1. Go to https://formspree.io and sign up with your Gmail
+          2. Click "New Form", name it "Portfolio Contact"
+          3. Copy your unique form ID — it looks like: xyzabcde
+          4. Replace YOUR_FORM_ID below with that ID
+          5. Push to GitHub — done. Messages land in your Gmail silently.
+
+          The visitor fills in, clicks Send, sees a thank-you message,
+          and never leaves the page. You get a clean email notification.
+        -->
+        <div class="contact-form" id="contact-form-wrapper">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact-name">Name</label>
+              <input type="text" id="contact-name" name="name" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email</label>
+              <input type="email" id="contact-email" name="email" placeholder="your@email.com" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="Tell me about your project or opportunity..." required></textarea>
+          </div>
+          <button class="btn-primary" id="submit-btn" onclick="handleFormSubmit(event)" style="align-self:flex-start;">
+            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            Send Message
+          </button>
+          <!-- Success message, hidden until form sends -->
+          <div id="form-success" style="display:none; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius-sm); padding:1rem; color:var(--accent-green); font-family:var(--font-mono); font-size:0.85rem;">
+            ✓ Message sent. I'll get back to you soon.
+          </div>
+          <div id="form-error" style="display:none; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:var(--radius-sm); padding:1rem; color:#F87171; font-family:var(--font-mono); font-size:0.85rem;">
+            Something went wrong. Try emailing me directly below.
+          </div>
+        </div>
+
+        <div class="form-divider">or reach me directly</div>
+
+        <!-- Direct email link -->
         <a href="mailto:20.davidabe@gmail.com" class="contact-email">
           20.davidabe@gmail.com
         </a>
 
-        <!-- Social links — update each href -->
         <div class="social-links" role="list" aria-label="Social profiles">
-
           <a href="https://github.com/DavidAbeAnalytics" class="social-link" role="listitem"
              title="GitHub" target="_blank" rel="noopener">
             <i class="fab fa-github" aria-hidden="true"></i>
-            <span class="sr-only">GitHub</span>
           </a>
-
           <a href="https://www.linkedin.com/in/abe-david/" class="social-link" role="listitem"
              title="LinkedIn" target="_blank" rel="noopener">
             <i class="fab fa-linkedin-in" aria-hidden="true"></i>
-            <span class="sr-only">LinkedIn</span>
-          </a>
-
-          <a href="https://twitter.com/yourhandle" class="social-link" role="listitem"
-             title="Twitter / X" target="_blank" rel="noopener">
-            <i class="fab fa-twitter" aria-hidden="true"></i>
-            <span class="sr-only">Twitter</span>
-          </a>
-
-          <!-- Optional: Medium, Dev.to, or Hashnode if you blog -->
-          <a href="https://medium.com/@yourhandle" class="social-link" role="listitem"
-             title="Medium" target="_blank" rel="noopener">
-            <i class="fab fa-medium-m" aria-hidden="true"></i>
-            <span class="sr-only">Medium</span>
           </a>
 
         </div>
@@ -1924,317 +1090,185 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════════════════ -->
+  <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>
-        Designed & built by <span>David Abe</span> ·
-        Hosted on <span>GitHub Pages</span> ·
-        <span id="footer-year"></span>
+        Built by <span>David Abe</span> · Hosted on <span>GitHub Pages</span> · <span id="footer-year"></span>
       </p>
     </div>
   </footer>
 
-  <!-- ══════════════════════════════════════════════════════
-       JAVASCRIPT
-       ══════════════════════════════════════════════════════
-       This block handles:
-       1. Canvas pipeline animation (hero background)
-       2. Scroll reveal (fade-in on scroll)
-       3. Skill bar animations
-       4. Counter animation (hero stats)
-       5. Project filter tabs
-       6. Mobile nav toggle
-       7. Footer year
-  ══════════════════════════════════════════════════════ -->
   <script>
-    /* ─── 1. CANVAS PIPELINE ANIMATION ────────────────────
-       Draws an animated node-graph that represents a data
-       pipeline. Nodes are connected by edges along which
-       small "data packets" travel, left to right.
-
-       How it works:
-       - We create a set of Node objects at random positions
-       - We connect nodes with weighted edges (pipeline paths)
-       - On each animation frame we:
-         a) Draw the connecting edges as glowing lines
-         b) Move small circle "packets" along the edges
-         c) Draw the node dots
-       - The canvas resizes automatically with the window
-    ─────────────────────────────────────────────────── */
+    /* CANVAS PIPELINE ANIMATION */
     (function initCanvas() {
       const canvas = document.getElementById('pipeline-canvas');
       const ctx    = canvas.getContext('2d');
-
-      // Match canvas resolution to display size
-      function resize() {
-        canvas.width  = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-      }
+      function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
       window.addEventListener('resize', resize);
       resize();
 
-      const CYAN  = '#00D4FF';
-      const AMBER = '#F59E0B';
-      const GREEN = '#10B981';
-      const MUTED = 'rgba(30,48,80,0.8)';
-
-      // ── Node class ──────────────────────────────────────
       class Node {
-        constructor(x, y, label) {
-          this.x      = x;
-          this.y      = y;
-          this.label  = label;
-          this.radius = 5;
-          this.pulse  = 0;     // used for the glow animation
-        }
+        constructor(x, y, label) { this.x = x; this.y = y; this.label = label; this.radius = 5; this.pulse = Math.random() * Math.PI * 2; }
         draw() {
-          this.pulse = (this.pulse + 0.05) % (Math.PI * 2);
+          this.pulse = (this.pulse + 0.04) % (Math.PI * 2);
           const glow = Math.sin(this.pulse) * 0.5 + 0.5;
-
-          // Outer glow ring
           ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius + 8 * glow, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0,212,255,${0.05 * glow})`;
+          ctx.arc(this.x, this.y, this.radius + 7 * glow, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,212,255,${0.04 * glow})`;
           ctx.fill();
-
-          // Node dot
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = CYAN;
+          ctx.fillStyle = '#00D4FF';
           ctx.fill();
-
-          // Label
-          ctx.fillStyle = 'rgba(240,246,255,0.5)';
-          ctx.font = '11px JetBrains Mono, monospace';
-          ctx.fillText(this.label, this.x + 10, this.y + 4);
+          ctx.fillStyle = 'rgba(240,246,255,0.45)';
+          ctx.font = '10px JetBrains Mono, monospace';
+          ctx.fillText(this.label, this.x + 9, this.y + 4);
         }
       }
 
-      // ── Packet class (moving dots along edges) ──────────
       class Packet {
-        constructor(from, to, color) {
-          this.from     = from;
-          this.to       = to;
-          this.progress = Math.random(); // start at random position
-          this.speed    = 0.003 + Math.random() * 0.004;
-          this.color    = color;
-        }
-        update() {
-          this.progress += this.speed;
-          if (this.progress > 1) this.progress = 0;
-        }
+        constructor(from, to, color) { this.from = from; this.to = to; this.progress = Math.random(); this.speed = 0.003 + Math.random() * 0.004; this.color = color; }
+        update() { this.progress += this.speed; if (this.progress > 1) this.progress = 0; }
         draw() {
           const x = this.from.x + (this.to.x - this.from.x) * this.progress;
           const y = this.from.y + (this.to.y - this.from.y) * this.progress;
-          ctx.beginPath();
-          ctx.arc(x, y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.fill();
-          // Trail glow
-          ctx.shadowBlur  = 8;
-          ctx.shadowColor = this.color;
-          ctx.fill();
-          ctx.shadowBlur  = 0;
+          ctx.shadowBlur = 8; ctx.shadowColor = this.color;
+          ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = this.color; ctx.fill();
+          ctx.shadowBlur = 0;
         }
       }
 
-      // ── Build the node graph ─────────────────────────────
-      // Positions are expressed as fractions of canvas size
-      // so they scale with the viewport.
       let nodes, edges, packets;
-
       function buildGraph() {
-        const w = canvas.width;
-        const h = canvas.height;
-
+        const w = canvas.width, h = canvas.height;
         nodes = [
-          // Ingest layer
-          new Node(w * 0.08, h * 0.3,  'Source A'),
-          new Node(w * 0.08, h * 0.55, 'Source B'),
-          new Node(w * 0.08, h * 0.75, 'Source C'),
-          // Ingestion broker
-          new Node(w * 0.28, h * 0.45, 'Kafka'),
-          // Processing
-          new Node(w * 0.48, h * 0.35, 'Spark'),
-          new Node(w * 0.48, h * 0.62, 'Airflow'),
-          // Storage
-          new Node(w * 0.68, h * 0.28, 'BigQuery'),
-          new Node(w * 0.68, h * 0.55, 'Delta Lake'),
-          // Serving
-          new Node(w * 0.88, h * 0.38, 'dbt'),
-          new Node(w * 0.88, h * 0.62, 'Looker'),
+          new Node(w*0.08, h*0.3,  'GCS'),
+          new Node(w*0.08, h*0.55, 'API'),
+          new Node(w*0.08, h*0.75, 'DB'),
+          new Node(w*0.28, h*0.45, 'Python'),
+          new Node(w*0.48, h*0.35, 'BigQuery'),
+          new Node(w*0.48, h*0.62, 'Airflow'),
+          new Node(w*0.68, h*0.28, 'dbt'),
+          new Node(w*0.68, h*0.55, 'Tests'),
+          new Node(w*0.88, h*0.42, 'Power BI'),
         ];
-
-        edges = [
-          [0, 3], [1, 3], [2, 3],
-          [3, 4], [3, 5],
-          [4, 6], [4, 7],
-          [5, 7],
-          [6, 8], [7, 8],
-          [8, 9],
-        ];
-
-        const colours = [CYAN, AMBER, GREEN];
+        edges = [[0,3],[1,3],[2,3],[3,4],[3,5],[4,6],[5,6],[6,7],[7,8]];
+        const colours = ['#00D4FF','#F59E0B','#10B981'];
         packets = [];
-        edges.forEach(([a, b], i) => {
-          const n = Math.floor(Math.random() * 2) + 1;
-          for (let k = 0; k < n; k++) {
-            packets.push(new Packet(nodes[a], nodes[b], colours[i % colours.length]));
-          }
+        edges.forEach(([a,b],i) => {
+          const n = Math.floor(Math.random()*2)+1;
+          for(let k=0;k<n;k++) packets.push(new Packet(nodes[a],nodes[b],colours[i%colours.length]));
         });
       }
-
-      // ── Draw edges (pipeline connections) ───────────────
       function drawEdges() {
-        edges.forEach(([a, b]) => {
-          const n1 = nodes[a], n2 = nodes[b];
-          ctx.beginPath();
-          ctx.moveTo(n1.x, n1.y);
-          ctx.lineTo(n2.x, n2.y);
-          ctx.strokeStyle = MUTED;
-          ctx.lineWidth   = 1;
-          ctx.stroke();
+        edges.forEach(([a,b]) => {
+          ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y);
+          ctx.strokeStyle='rgba(30,48,80,0.8)'; ctx.lineWidth=1; ctx.stroke();
         });
       }
-
-      // ── Animation loop ───────────────────────────────────
       function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         drawEdges();
-        packets.forEach(p => { p.update(); p.draw(); });
-        nodes.forEach(n => n.draw());
+        packets.forEach(p=>{p.update();p.draw();});
+        nodes.forEach(n=>n.draw());
         requestAnimationFrame(animate);
       }
-
-      // Rebuild graph on resize so node positions stay proportional
-      window.addEventListener('resize', () => { resize(); buildGraph(); });
-
-      buildGraph();
-      animate();
+      window.addEventListener('resize',()=>{resize();buildGraph();});
+      buildGraph(); animate();
     })();
 
-
-    /* ─── 2. SCROLL REVEAL ─────────────────────────────────
-       IntersectionObserver watches for elements with class
-       .reveal entering the viewport. When they do, it adds
-       .visible which triggers the CSS fade-up transition.
-    ─────────────────────────────────────────────────── */
+    /* SCROLL REVEAL */
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target); // animate once
-        }
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
       });
-    }, { threshold: 0.15 });
-
+    }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-
-    /* ─── 3. SKILL BAR ANIMATIONS ──────────────────────────
-       When a .skill-fill enters the viewport its width
-       transitions from 0 to the value in data-pct.
-    ─────────────────────────────────────────────────── */
-    const skillObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
-            bar.style.width = bar.dataset.pct + '%';
-          });
-          skillObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    const skillsGrid = document.querySelector('.skills-grid');
-    if (skillsGrid) skillObserver.observe(skillsGrid);
-
-
-    /* ─── 4. COUNTER ANIMATION (Hero stats) ────────────────
-       Animates numbers from 0 up to their data-count value
-       when the hero section mounts.
-    ─────────────────────────────────────────────────── */
-    function animateCounter(el, target, duration = 1500) {
-      let start = null;
-      const step = (timestamp) => {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        // Ease-out: fast start, slow end
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(eased * target) + (target >= 10 ? '+' : '');
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
-
-    // Kick off counters after a short delay so the page has painted
-    setTimeout(() => {
-      document.querySelectorAll('[data-count]').forEach(el => {
-        animateCounter(el, parseInt(el.dataset.count, 10));
-      });
-    }, 600);
-
-
-    /* ─── 5. PROJECT FILTERS ───────────────────────────────
-       Clicking a filter button toggles the .active class and
-       hides cards whose data-category doesn't include the
-       selected filter. "all" shows everything.
-    ─────────────────────────────────────────────────── */
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    /* PROJECT FILTERS */
+    const filterBtns   = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
-
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Update active state
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         const filter = btn.dataset.filter;
-
         projectCards.forEach(card => {
-          if (filter === 'all' || card.dataset.category.includes(filter)) {
-            card.style.display = 'flex';
-            // Re-trigger reveal animation
-            setTimeout(() => card.classList.add('visible'), 50);
-          } else {
-            card.style.display = 'none';
-          }
+          const show = filter === 'all' || card.dataset.category.includes(filter);
+          card.style.display = show ? 'flex' : 'none';
+          if (show) setTimeout(() => card.classList.add('visible'), 50);
         });
       });
     });
 
-
-    /* ─── 6. MOBILE NAV TOGGLE ─────────────────────────────
-       The hamburger button adds/removes the .open class on
-       the nav links list to show/hide it on small screens.
-    ─────────────────────────────────────────────────── */
+    /* MOBILE NAV */
     const navToggle = document.getElementById('nav-toggle');
     const navLinks  = document.getElementById('nav-links');
-
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
       navToggle.setAttribute('aria-expanded', isOpen);
     });
-
-    // Close nav when any link is clicked (smooth UX on mobile)
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', () => { navLinks.classList.remove('open'); navToggle.setAttribute('aria-expanded','false'); });
     });
 
+    /* FOOTER YEAR */
+    document.getElementById('footer-year').textContent = '© ' + new Date().getFullYear();
 
-    /* ─── 7. FOOTER YEAR ───────────────────────────────────
-       Automatically keeps the copyright year current
-       without you needing to update the HTML manually.
-    ─────────────────────────────────────────────────── */
-    document.getElementById('footer-year').textContent =
-      '© ' + new Date().getFullYear();
+    /* FORMSPREE CONTACT FORM
+       Replace YOUR_FORM_ID with the ID from your Formspree dashboard.
+       Example: if your endpoint is https://formspree.io/f/xyzabcde
+       then YOUR_FORM_ID = xyzabcde
+    */
+    async function handleFormSubmit(e) {
+      e.preventDefault();
 
+      const name    = document.getElementById('contact-name').value.trim();
+      const email   = document.getElementById('contact-email').value.trim();
+      const message = document.getElementById('contact-message').value.trim();
+      const success = document.getElementById('form-success');
+      const error   = document.getElementById('form-error');
+      const btn     = document.getElementById('submit-btn');
+
+      if (!name || !email || !message) {
+        error.textContent = 'Please fill in all fields.';
+        error.style.display = 'block';
+        success.style.display = 'none';
+        return;
+      }
+
+      // Disable button while sending
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      success.style.display = 'none';
+      error.style.display   = 'none';
+
+      try {
+        const response = await fetch('https://formspree.io/f/xojorlop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        if (response.ok) {
+          success.style.display = 'block';
+          // Clear the fields
+          document.getElementById('contact-name').value    = '';
+          document.getElementById('contact-email').value   = '';
+          document.getElementById('contact-message').value = '';
+        } else {
+          error.style.display = 'block';
+        }
+      } catch (err) {
+        error.style.display = 'block';
+      }
+
+      // Re-enable button
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }
   </script>
 </body>
 </html>
