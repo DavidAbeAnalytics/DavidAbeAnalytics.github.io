@@ -767,7 +767,7 @@
 
       <div class="project-filters" role="group" aria-label="Filter projects">
         <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="pipeline">ELT Pipelines</button>
+        <button class="filter-btn" data-filter="pipeline">ELT/ETL Pipelines</button>
         <button class="filter-btn" data-filter="analytics">Analytics</button>
         <button class="filter-btn" data-filter="cloud">Cloud Infra</button>
       </div>
@@ -820,38 +820,6 @@
         </article>
 
         <!-- Card 2 -->
-        <article class="project-card reveal" data-category="pipeline cloud" aria-labelledby="proj2-title">
-          <div class="project-header">
-            <p class="project-category">ELT Pipeline · Cloud Infra</p>
-            <div class="project-links">
-              <a href="https://github.com/DavidAbeAnalytics/Financial_Stock_Market_Data_Pipeline_and_Technical_Analysis"
-                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
-                <i class="fab fa-github" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-          <div class="project-body">
-            <h3 class="project-title" id="proj2-title">Financial Stock Market Data Pipeline</h3>
-            <p class="project-desc">
-              AWS-native pipeline using Airflow, Lambda, and S3 in a Medallion
-              architecture. Analyses five stock symbols with technical indicators.
-              Loads processed data into Redshift for reporting.
-            </p>
-            <div class="project-metrics">
-              <span class="metric-badge">Medallion Architecture</span>
-              <span class="metric-badge">5 stock symbols</span>
-            </div>
-            <div class="project-tags">
-              <span class="tag">Airflow</span>
-              <span class="tag">AWS Lambda</span>
-              <span class="tag">S3</span>
-              <span class="tag">Redshift</span>
-              <span class="tag">Python</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
         <article class="project-card reveal" data-category="analytics pipeline" aria-labelledby="proj3-title">
           <div class="project-header">
             <p class="project-category">Analytics Engineering</p>
@@ -882,7 +850,7 @@
           </div>
         </article>
 
-        <!-- Card 4 — Streaming project (coming soon) -->
+        <!-- Card 3 — Streaming project (coming soon) -->
         <article class="project-card reveal" data-category="pipeline" aria-labelledby="proj4-title">
           <div class="project-header">
             <p class="project-category">Streaming Pipeline · In Progress</p>
@@ -896,10 +864,10 @@
           <div class="project-body">
             <h3 class="project-title" id="proj4-title">Real-Time Streaming Pipeline</h3>
             <p class="project-desc">
-              Streaming data pipeline using Apache Kafka, Python (Faker for
-              data generation), dbt Core, and DuckDB. Built on free-tier
-              services to demonstrate real-time ingestion and transformation
-              without cloud spend.
+              Streaming data pipeline using Apache Kafka and Python for real-time
+              event ingestion, dbt Core for transformation, and PostgreSQL as the
+              destination warehouse. Includes a live dashboard for monitoring,
+              with GitHub Actions handling CI/CD.
             </p>
             <div class="project-metrics">
               <span class="metric-badge" style="color:var(--accent-secondary);background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.2);">Coming soon</span>
@@ -907,13 +875,15 @@
             <div class="project-tags">
               <span class="tag">Kafka</span>
               <span class="tag">Python</span>
+              <span class="tag">PostgreSQL</span>
               <span class="tag">dbt Core</span>
-              <span class="tag">DuckDB</span>
+              <span class="tag">Dashboard</span>
+              <span class="tag">GitHub Actions CI/CD</span>
             </div>
           </div>
         </article>
 
-        <!-- Card 5 -->
+        <!-- Card 4 -->
         <article class="project-card reveal" data-category="cloud pipeline" aria-labelledby="proj5-title">
           <div class="project-header">
             <p class="project-category">Cloud Infra · Database Security</p>
@@ -940,6 +910,38 @@
               <span class="tag">SQL</span>
               <span class="tag">Query Optimization</span>
               <span class="tag">Security</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="project-card reveal" data-category="pipeline cloud" aria-labelledby="proj2-title">
+          <div class="project-header">
+            <p class="project-category">ETL Pipeline · Cloud Infra</p>
+            <div class="project-links">
+              <a href="https://github.com/DavidAbeAnalytics/Financial_Stock_Market_Data_Pipeline_and_Technical_Analysis"
+                 class="project-link" title="View on GitHub" target="_blank" rel="noopener">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3 class="project-title" id="proj2-title">Financial Stock Market Data Pipeline</h3>
+            <p class="project-desc">
+              AWS-native pipeline using Airflow, Lambda, and S3 in a Medallion
+              architecture. Analyses five stock symbols with technical indicators.
+              Loads processed data into Redshift for reporting.
+            </p>
+            <div class="project-metrics">
+              <span class="metric-badge">Medallion Architecture</span>
+              <span class="metric-badge">5 stock symbols</span>
+            </div>
+            <div class="project-tags">
+              <span class="tag">Airflow</span>
+              <span class="tag">AWS Lambda</span>
+              <span class="tag">S3</span>
+              <span class="tag">Redshift</span>
+              <span class="tag">Python</span>
             </div>
           </div>
         </article>
