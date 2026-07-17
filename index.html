@@ -236,7 +236,7 @@
 
     .terminal-block {
       background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: var(--radius-md); overflow: hidden; margin-top: var(--space-lg);
+      border-radius: var(--radius-md); overflow: hidden; width: 100%;
     }
     .terminal-header {
       background: var(--bg-elevated); padding: 0.6rem 1rem;
@@ -606,6 +606,28 @@
         </div>
 
         <div class="about-visual reveal">
+          <!-- Terminal block — static $ prompt, no blinking cursor -->
+          <div class="terminal-block">
+            <div class="terminal-header">
+              <div class="terminal-dot red"></div>
+              <div class="terminal-dot yellow"></div>
+              <div class="terminal-dot green"></div>
+              <span class="terminal-title">profile.json</span>
+            </div>
+            <div class="terminal-body">
+              <div><span class="static-prompt">$</span> <span class="cmd">cat profile.json</span></div>
+              <div class="output">{</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"name"</span>: <span class="val">"David Abe"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="val">"Cloud &amp; Analytics Data Engineer"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"primary_cloud"</span>: <span class="val">"GCP"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"stack"</span>: [<span class="val">"BigQuery"</span>, <span class="val">"dbt"</span>, <span class="val">"Airflow"</span>, <span class="val">"Power BI"</span>],</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"open_to"</span>: <span class="val">"Remote Opportunities"</span>,</div>
+              <div class="output">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="val" style="color:var(--accent-green)">"available"</span></div>
+              <div class="output">}</div>
+              <div><span class="static-prompt">$</span></div>
+            </div>
+          </div>
+
           <!--
             Core competencies as pills — replaces the skill percentage bars.
             Percentages on a portfolio are subjective and often questioned by
@@ -628,28 +650,6 @@
           </div>
         </div>
 
-      </div>
-
-      <!-- Terminal block — full width, sits below the bio/pills row -->
-      <div class="terminal-block reveal">
-        <div class="terminal-header">
-          <div class="terminal-dot red"></div>
-          <div class="terminal-dot yellow"></div>
-          <div class="terminal-dot green"></div>
-          <span class="terminal-title">profile.json</span>
-        </div>
-        <div class="terminal-body">
-          <div><span class="static-prompt">$</span> <span class="cmd">cat profile.json</span></div>
-          <div class="output">{</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"name"</span>: <span class="val">"David Abe"</span>,</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"role"</span>: <span class="val">"Cloud &amp; Analytics Data Engineer"</span>,</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"primary_cloud"</span>: <span class="val">"GCP"</span>,</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"stack"</span>: [<span class="val">"BigQuery"</span>, <span class="val">"dbt"</span>, <span class="val">"Airflow"</span>, <span class="val">"Power BI"</span>],</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"open_to"</span>: <span class="val">"Remote Opportunities"</span>,</div>
-          <div class="output">&nbsp;&nbsp;<span class="key">"status"</span>: <span class="val" style="color:var(--accent-green)">"available"</span></div>
-          <div class="output">}</div>
-          <div><span class="static-prompt">$</span></div>
-        </div>
       </div>
 
     </div>
